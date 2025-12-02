@@ -1,0 +1,27 @@
+:root {
+  /* Font */
+  --font-main: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --line-height-main: 1.5;
+  --font-weight-main: 400;
+
+  /* Colors – dark mode */
+  --color-text: rgba(255, 255, 255, 0.87);
+  --color-bg: #242424;
+  --color-link: #646cff;
+  --color-link-hover: #535bf2;
+
+  /* Colors – light mode */
+  --color-text-light: #213547;
+  --color-bg-light: #ffffff;
+  --color-link-hover-light: #747bff;
+
+  /* Buttons */
+  --button-bg: #1a1a1a;
+  --button-bg-light: #f9f9f9;
+
+  /* Misc */
+  --font-synthesis: none;
+  --text-rendering: optimizeLegibility;
+  --font-smoothing-webkit: antialiased;
+  --font-smoothing-moz: grayscale;
+}
