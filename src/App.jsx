@@ -1,13 +1,18 @@
+import GamesDashboard from "./pages/CMS/GamesDashboard";
 import "./styles/global.css";
 import "./App.css";
 
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
+
 export default function App() {
   return (
-    <div id="App">
-      <main>
-        <h1>Jule Jeopardy 🎄</h1>
-        <p>Velkommen til projektet. Klar til at bygge videre.</p>
-      </main>
-    </div>
+    <Routes>
+      <Route path="/games-dashboard" element={<GamesDashboard />} />
+    </Routes>
   );
 }
