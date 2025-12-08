@@ -24,4 +24,7 @@
   --text-rendering: optimizeLegibility;
   --font-smoothing-webkit: antialiased;
   --font-smoothing-moz: grayscale;
+
+  /* AdminPanel */
+  --color-bg-admin: #f9fafb;
 }

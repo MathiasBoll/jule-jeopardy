@@ -1,4 +1,4 @@
-@import './variables.css';
+@import "./variables.css";
 
 :root {
   font-family: var(--font-main);
@@ -29,11 +29,19 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+
+  overflow-x: hidden;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
 }
 
 button {

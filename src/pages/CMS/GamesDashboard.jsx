@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import DashNav from "../DashNav/DashNav";
+import GameSelect from "../GameSelect/GameSelect";
+import GamesDashBoard from "../../components/GamesDashBoard/GamesDashBoard";
+import GameKategoryTable from "./GameKategoryTable";
 import s from "./DashBoard.module.css";
 
 const GamesDashboard = () => {
+  const [currentGame, setCurrentGame] = useState(null);
+
   return (
-    <section>
-      <div className={s.container}>
-        <h2 className={s.dashTitle}>Games Dashboard</h2>
+    <section className={`sectionAdmin`}>
+      <div className={`admin-container`}>
+        <DashNav />
+        <div className={`container `}>
+          <h2 className={s.dashTitle}>Games Dash Board</h2>
+          <div className={s.tableContainer}>
+            <div className={s.selectItems}>
+              {!currentGame ? (
+                <GameSelect onSelect={setCurrentGame} />
+              ) : (
+                <GamesDashBoard game={currentGame} />
+              )}
+            </div>
+            <GameKategoryTable />
+          </div>
+        </div>
       </div>
     </section>
   );
