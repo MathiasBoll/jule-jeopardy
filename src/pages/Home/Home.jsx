@@ -10,22 +10,15 @@ import bauble3 from "../../assets/icon/bauble_3.svg";
 const Home = () => {
   return (
     <div className="home-container">
+      <img src={heroImg} alt="Background decoration" className="hero-overlay" />
+
       {/* Top banner med hero-element 1 */}
       <div className="banner top-banner">
         <img src={heroElement1} alt="Top decoration" className="banner-img" />
       </div>
 
-      {/* Main content med hero_img som overlay */}
+      {/* Main content */}
       <div className="main-content">
-        <img
-          src={heroImg}
-          alt="Background decoration"
-          className="hero-overlay"
-        />
-
-        {/* Snowfall animation */}
-        <div className="snowfall"></div>
-
         {/* Title section */}
         <div className="title-section">
           {/* Baubles above title */}
@@ -35,7 +28,7 @@ const Home = () => {
             <img src={bauble3} alt="Decoration" className="bauble" />
           </div>
 
-          <h1 className="main-title">Julie Jeopardy</h1>
+          <h1 className="main-title">Jule Jeopardy</h1>
           <h2 className="subtitle">En festlig quiz for hele familien</h2>
         </div>
 

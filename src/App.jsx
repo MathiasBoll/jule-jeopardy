@@ -14,12 +14,15 @@ import {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/games-dashboard" element={<GamesDashboard />} />
-      <Route path="/game-play" element={<GamesDashBoard />} />
-      <Route path="/kategory" element={<Kategory />} />
-      <Route path="/kategory/:gameId/:categoryId" element={<Kategory />} />
-    </Routes>
+    <>
+      <div className="snowfall"></div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/games-dashboard" element={<GamesDashboard />} />
+        <Route path="/game-play" element={<GamesDashBoard />} />
+        <Route path="/kategory" element={<Kategory />} />
+        <Route path="/kategory/:gameId/:categoryId" element={<Kategory />} />
+      </Routes>
+    </>
   );
 }
