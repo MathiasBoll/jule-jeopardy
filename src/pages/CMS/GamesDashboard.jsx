@@ -26,6 +26,7 @@ const GamesDashboard = () => {
               )}
             </div>
             <GameKategoryTable />
+      
           </div>
         </div>
       </div>
