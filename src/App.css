@@ -98,3 +98,21 @@ h1 {
   justify-content: start;
   overflow: hidden;
 }
+
+.container {
+  width: min(100%, 1280px);
+  padding: 90px 15px;
+}
+
+.admin-container {
+  display: flex;
+}
+
+.sectionAdmin {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg-admin);
+  display: flex;
+  justify-content: start;
+  overflow: hidden;
+}
