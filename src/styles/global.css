@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 @import "./variables.css";
-=======
-@import './variables.css';
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 
 :root {
   font-family: var(--font-main);
@@ -33,11 +29,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-<<<<<<< HEAD
 
   overflow-x: hidden;
-=======
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 }
 
 h1 {
@@ -45,15 +38,12 @@ h1 {
   line-height: 1.1;
 }
 
-<<<<<<< HEAD
 ul,
 ol,
 li {
   list-style: none;
 }
 
-=======
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 button {
   border-radius: 8px;
   border: 1px solid transparent;

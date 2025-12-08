@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .dashTitle {
   font-weight: 400;
   font-size: 32px;
@@ -113,16 +112,3 @@
 }
 
 /*?============= Category_ ============*/
-=======
-.container {
-  width: min(100%, 1280px); /* parent size 100% width */
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-.dashTitle {
-  font-weight: 400;
-  font-size: 32px;
-  color: white;
-}
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32

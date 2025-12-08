@@ -3,6 +3,7 @@ import DashNav from "../DashNav/DashNav";
 import GameSelect from "../GameSelect/GameSelect";
 import GamesDashBoard from "../../components/GamesDashBoard/GamesDashBoard";
 import GameKategoryTable from "./GameKategoryTable";
+import JeopardyQuestionForm from "./JeopardyQuestionForm";
 import s from "./DashBoard.module.css";
 
 const GamesDashboard = () => {
@@ -22,8 +23,8 @@ const GamesDashboard = () => {
                 <GamesDashBoard game={currentGame} />
               )}
             </div>
-            <JeopardyQuestionForm />
             <GameKategoryTable />
+            <JeopardyQuestionForm />
           </div>
         </div>
       </div>
