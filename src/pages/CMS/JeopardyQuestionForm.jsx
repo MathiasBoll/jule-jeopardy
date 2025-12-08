@@ -1,15 +1,31 @@
 import { useState } from "react";
 
-const JeopardyQuestionForm = () => {
-  const [formData, setFormData] = useState({
-    pointValue: "100",
-    question: "",
-    answer: "",
-    notes: "",
-  });
+const POINT_VALUES = [100, 200, 300, 400, 500];
+
+const JeopardyQuestionForm = ({
+  gameName,
+  categoryName,
+  gameId,
+  categoryId,
+  questionId = null,
+  initialData = null,
+  onSuccess,
+  onCancel,
+}) => {
+  const [formData, setFormData] = useState(
+    initialData || {
+      pointValue: "100",
+      question: "",
+      answer: "",
+      notes: "",
+    }
+  );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const isEditMode = Boolean(questionId);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,30 +39,54 @@ const JeopardyQuestionForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+    setSuccessMessage(null);
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/questions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const payload = {
+        ...formData,
+        gameId,
+        categoryId,
+      };
 
-      if (!res.ok) throw new Error("Kunne ikke gemme spørgsmålet");
+      const url = isEditMode
+        ? `${import.meta.env.VITE_API_BASE_URL}/questions/${questionId}`
+        : `${import.meta.env.VITE_API_BASE_URL}/questions`;
 
-      // Reset form efter succesfuld indsendelse
-      setFormData({
-        pointValue: "100",
-        question: "",
-        answer: "",
-        notes: "",
+      const method = isEditMode ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
-      alert("Spørgsmål gemt!");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || "Kunne ikke gemme spørgsmålet");
+      }
+
+      const savedQuestion = await res.json();
+
+      setSuccessMessage(
+        isEditMode ? "Spørgsmål opdateret!" : "Spørgsmål gemt!"
+      );
+
+      if (!isEditMode) {
+        // Reset form after successful creation
+        setFormData({
+          pointValue: "100",
+          question: "",
+          answer: "",
+          notes: "",
+        });
+      }
+
+      // Notify parent component
+      if (onSuccess) {
+        onSuccess(savedQuestion);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -54,25 +94,55 @@ const JeopardyQuestionForm = () => {
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      pointValue: "100",
-      question: "",
-      answer: "",
-      notes: "",
-    });
+  const handleCancelClick = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      // Fallback: reset form
+      setFormData(
+        initialData || {
+          pointValue: "100",
+          question: "",
+          answer: "",
+          notes: "",
+        }
+      );
+    }
   };
 
   return (
     <div>
-      <h2>Edit Jeopardy Question Form</h2>
+      <h2>{isEditMode ? "Rediger" : "Opret"} Jeopardy Spørgsmål</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>Admin / Spil / Jule Jeopardy / Kategori: Julemad / Spørgsmål</div>
+      <nav aria-label="Breadcrumb">
+        <ol>
+          <li>Admin</li>
+          <li>Spil</li>
+          <li>{gameName}</li>
+          <li>Kategori: {categoryName}</li>
+          <li>Spørgsmål</li>
+        </ol>
+      </nav>
 
-        <div>Rediger spørgsmål – Julemad / {formData.pointValue} point</div>
+      <div>
+        <h3>
+          {isEditMode ? "Rediger" : "Nyt"} spørgsmål – {categoryName} /{" "}
+          {formData.pointValue} point
+        </h3>
+      </div>
 
-        {error && <div>{error}</div>}
+      <form onSubmit={handleSubmit} aria-labelledby="form-heading">
+        {error && (
+          <div role="alert" aria-live="assertive">
+            {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div role="status" aria-live="polite">
+            {successMessage}
+          </div>
+        )}
 
         <div>
           <label htmlFor="pointValue">Pointværdi</label>
@@ -82,12 +152,13 @@ const JeopardyQuestionForm = () => {
             value={formData.pointValue}
             onChange={handleChange}
             required
+            aria-required="true"
           >
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="300">300</option>
-            <option value="400">400</option>
-            <option value="500">500</option>
+            {POINT_VALUES.map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -101,7 +172,12 @@ const JeopardyQuestionForm = () => {
             placeholder="Skriv hele spørgsmålet, som det skal vises for eleverne..."
             rows="6"
             required
+            aria-required="true"
+            aria-describedby="question-hint"
           />
+          <small id="question-hint">
+            Skriv hele spørgsmålet, som det skal vises for eleverne
+          </small>
         </div>
 
         <div>
@@ -114,7 +190,12 @@ const JeopardyQuestionForm = () => {
             placeholder="Skriv svaret i Jeopardy-format, f.eks. 'Hvad er gløgg?'"
             rows="6"
             required
+            aria-required="true"
+            aria-describedby="answer-hint"
           />
+          <small id="answer-hint">
+            Skriv svaret i Jeopardy-format, f.eks. &quot;Hvad er gløgg?&quot;
+          </small>
         </div>
 
         <div>
@@ -126,15 +207,30 @@ const JeopardyQuestionForm = () => {
             onChange={handleChange}
             placeholder="Hint, kilde eller ekstra info..."
             rows="4"
+            aria-describedby="notes-hint"
           />
+          <small id="notes-hint">Hint, kilde eller ekstra info</small>
         </div>
 
         <div>
-          <button type="button" onClick={handleCancel} disabled={isSubmitting}>
+          <button
+            type="button"
+            onClick={handleCancelClick}
+            disabled={isSubmitting}
+            aria-label="Annuller og gå tilbage"
+          >
             Annuller
           </button>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Gemmer..." : "Gem ændringer"}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            aria-label={isEditMode ? "Gem ændringer" : "Gem nyt spørgsmål"}
+          >
+            {isSubmitting
+              ? "Gemmer..."
+              : isEditMode
+              ? "Gem ændringer"
+              : "Gem spørgsmål"}
           </button>
         </div>
       </form>
