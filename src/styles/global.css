@@ -31,10 +31,6 @@ body {
 
 
   overflow-x: hidden;
-
-
-  overflow-x: hidden;
-
 }
 
 h1 {
@@ -42,13 +38,11 @@ h1 {
   line-height: 1.1;
 }
 
-
 ul,
 ol,
 li {
   list-style: none;
 }
-
 
 button {
   border-radius: 8px;
