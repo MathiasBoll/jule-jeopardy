@@ -22,7 +22,6 @@ const GamesDashboard = () => {
                 <GamesDashBoard game={currentGame} />
               )}
             </div>
-            <JeopardyQuestionForm />
             <GameKategoryTable />
           </div>
         </div>

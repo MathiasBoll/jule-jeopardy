@@ -111,7 +111,7 @@ const JeopardyQuestionForm = ({
   };
 
   return (
-    <div>
+    <>
       <h2>{isEditMode ? "Rediger" : "Opret"} Jeopardy Spørgsmål</h2>
 
       <nav aria-label="Breadcrumb">
@@ -234,7 +234,7 @@ const JeopardyQuestionForm = ({
           </button>
         </div>
       </form>
-    </div>
+    </>
   );
 };
 

@@ -12,7 +12,6 @@ main {
 h1 {
   font-size: 3rem;
   color: var(--text-color);
-<<<<<<< HEAD
 }
 
 .container {
@@ -34,6 +33,4 @@ h1 {
   display: flex;
   justify-content: start;
   overflow: hidden;
-=======
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 }
