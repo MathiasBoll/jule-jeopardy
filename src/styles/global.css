@@ -32,11 +32,6 @@ body {
 
 
   overflow-x: hidden;
-
-
-  overflow-x: hidden;
-=======
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 }
 
 h1 {
@@ -44,15 +39,12 @@ h1 {
   line-height: 1.1;
 }
 
-<<<<<<< HEAD
 ul,
 ol,
 li {
   list-style: none;
 }
 
-=======
->>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 button {
   border-radius: 8px;
   border: 1px solid transparent;
