@@ -12,7 +12,7 @@
 .banner {
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   flex-shrink: 0;
 }
 
@@ -42,47 +42,138 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px;
+  padding: 40px 20px;
   overflow: hidden;
+  min-height: 100%;
 }
 
-/* Hero Overlay */
+/* Hero Overlay - Fixed to contain properly */
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
   object-fit: cover;
   opacity: 0.6;
   z-index: 1;
 }
 
+/* Snowfall Animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10vh) translateX(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+.snowfall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  background-image: radial-gradient(
+      2px 2px at 20px 30px,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2px 2px at 60px 70px,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 50px 50px,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      1px 1px at 130px 80px,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      2px 2px at 90px 10px,
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0)
+    );
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: snowfall 10s linear infinite;
+}
+
 /* Title Section */
 .title-section {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 40px;
+  margin: 0 auto 30px;
   color: white;
 }
 
+/* Baubles */
+.baubles {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.bauble {
+  width: 50px;
+  height: 50px;
+  animation: swing 3s ease-in-out infinite;
+}
+
+.bauble:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.bauble:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.bauble:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
 .main-title {
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
   font-weight: 300;
   letter-spacing: 4px;
   margin: 0;
   padding: 0;
   line-height: 1.1;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
 }
 
 .subtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(0.9rem, 1.8vw, 1.3rem);
   font-weight: 400;
-  margin: 15px 0 0;
+  margin: 12px 0 0;
   padding: 0;
   letter-spacing: 1px;
   color: #f4a76b;
@@ -92,14 +183,14 @@
 /* Opstilling Button */
 .opstilling-button {
   position: relative;
-  z-index: 2;
-  padding: 18px 50px;
-  font-size: 1.2rem;
+  z-index: 3;
+  padding: 15px 40px;
+  font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 2px;
-  color: #f4a76b;
-  background: transparent;
-  border: 3px solid #f4a76b;
+  color: white;
+  background: #d32f2f;
+  border: 3px solid #d32f2f;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -108,9 +199,10 @@
 }
 
 .opstilling-button:hover {
-  background: rgba(244, 167, 107, 0.1);
+  background: #b71c1c;
+  border-color: #b71c1c;
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(244, 167, 107, 0.3);
+  box-shadow: 0 0 20px rgba(211, 47, 47, 0.4);
 }
 
 .opstilling-button:active {
@@ -128,11 +220,21 @@
   }
 
   .main-content {
-    padding: 40px 15px;
+    padding: 30px 15px;
+  }
+
+  .baubles {
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .bauble {
+    width: 40px;
+    height: 40px;
   }
 
   .opstilling-button {
-    padding: 14px 40px;
+    padding: 12px 35px;
     font-size: 1rem;
   }
 }
@@ -147,19 +249,29 @@
   }
 
   .main-content {
-    padding: 30px 15px;
+    padding: 20px 15px;
+  }
+
+  .baubles {
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .bauble {
+    width: 35px;
+    height: 35px;
   }
 
   .main-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .opstilling-button {
-    padding: 12px 30px;
+    padding: 10px 30px;
     font-size: 0.9rem;
   }
 }
