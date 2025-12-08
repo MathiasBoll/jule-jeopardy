@@ -3,7 +3,7 @@ import DashNav from "../DashNav/DashNav";
 import GameSelect from "../GameSelect/GameSelect";
 import GamesDashBoard from "../../components/GamesDashBoard/GamesDashBoard";
 import GameKategoryTable from "./GameKategoryTable";
-import JeopardyQuestionForm from "./JeopardyQuestionForm";
+
 import s from "./DashBoard.module.css";
 
 const GamesDashboard = () => {
@@ -12,7 +12,9 @@ const GamesDashboard = () => {
   return (
     <section className={`sectionAdmin`}>
       <div className={`admin-container`}>
-        <DashNav />
+        <aside className={`sidebar`}>
+          <DashNav />
+        </aside>
         <div className={`container `}>
           <h2 className={s.dashTitle}>Games Dash Board</h2>
           <div className={s.tableContainer}>
@@ -24,7 +26,6 @@ const GamesDashboard = () => {
               )}
             </div>
             <GameKategoryTable />
-            <JeopardyQuestionForm />
           </div>
         </div>
       </div>
