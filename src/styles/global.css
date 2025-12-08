@@ -1,4 +1,3 @@
-
 @import "./variables.css";
 
 :root {
@@ -34,6 +33,9 @@ body {
 
   overflow-x: hidden;
 
+
+  overflow-x: hidden;
+
 }
 
 h1 {
@@ -47,6 +49,7 @@ ol,
 li {
   list-style: none;
 }
+
 
 button {
   border-radius: 8px;

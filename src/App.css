@@ -12,6 +12,30 @@ main {
 h1 {
   font-size: 3rem;
   color: var(--text-color);
+<<<<<<< HEAD
+}
+
+.container {
+  width: min(100%, 1280px); /* parent size 100% width */
+  /* margin: 0 auto; */
+  padding: 90px 15px;
+}
+
+.admin-container {
+  display: flex;
+  /* padding: 90px 0; */
+}
+
+.sectionAdmin {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-bg-admin);
+
+  display: flex;
+  justify-content: start;
+  overflow: hidden;
+=======
+>>>>>>> 570d385e32c88cf8825483e60dac950084108f32
 }
 
 .container {
