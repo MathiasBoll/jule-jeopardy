@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import GamesDashBoard from "./components/GamesDashBoard/GamesDashBoard";
 import GamesDashboard from "./pages/CMS/GamesDashboard";
