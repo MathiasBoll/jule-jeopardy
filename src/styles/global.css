@@ -25,13 +25,19 @@ a:hover {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
 
 
   overflow-x: hidden;
+<<<<<<< HEAD
+
+
+  overflow-x: hidden;
+
+=======
+>>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
 }
 
 h1 {
@@ -39,12 +45,20 @@ h1 {
   line-height: 1.1;
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
 ul,
 ol,
 li {
   list-style: none;
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
 button {
   border-radius: 8px;
   border: 1px solid transparent;
