@@ -3,6 +3,7 @@ import "./App.css";
 import GamesDashBoard from "./components/GamesDashBoard/GamesDashBoard";
 import GamesDashboard from "./pages/CMS/GamesDashboard";
 import GameBoardPage from "./pages/GameBoard/GameBoardPage";
+import JeopardyQuestion from "./pages/JeopardyQuestion/JeopardyQuestion";
 import Kategory from "./pages/Kategory/Kategory";
 import "./styles/global.css";
 
@@ -13,6 +14,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/game-select" replace />} />
       <Route path="/games-dashboard" element={<GamesDashboard />} />
+      <Route path="/jeopardy-question" element={<JeopardyQuestion />} />
       <Route path="/game-select" element={<GamesDashBoard />} />
       <Route path="/game-play" element={<GameBoardPage />} />
       <Route path="/kategory" element={<Kategory />} />
