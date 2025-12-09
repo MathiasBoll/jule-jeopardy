@@ -5,8 +5,19 @@ import s from "./GameBoard.module.css";
 const GameBoard = () => {
   const { currentGame } = useGame();
 
-  if (!currentGame || !currentGame.categories) {
-    return <div>No game loaded</div>;
+  console.log("GameBoard currentGame:", currentGame);
+
+  if (!currentGame) {
+    return <div className={s.container}>No game loaded</div>;
+  }
+
+  if (!currentGame.categories || currentGame.categories.length === 0) {
+    return (
+      <div className={s.container}>
+        <h1 className={s.title}>{currentGame.name}</h1>
+        <div>No categories found in this game</div>
+      </div>
+    );
   }
 
   return (

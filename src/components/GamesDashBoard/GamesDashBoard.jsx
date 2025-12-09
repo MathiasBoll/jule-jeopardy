@@ -13,6 +13,7 @@ const GamesDashBoard = ({ game }) => {
     const loadGames = async () => {
       try {
         const gamesData = await fetchGames();
+        console.log("Available games:", gamesData);
         setGames(gamesData);
         setLoading(false);
       } catch (error) {
@@ -29,7 +30,12 @@ const GamesDashBoard = ({ game }) => {
 
   const handleStartGame = () => {
     if (selectedGameId) {
-      navigate(`/game-play?gameId=${selectedGameId}`);
+      console.log("Starting game with ID:", selectedGameId);
+      const selectedGame = games.find((g) => g._id === selectedGameId);
+      console.log("Selected game object:", selectedGame);
+      navigate(`/game-play?gameId=${selectedGameId}`, {
+        state: { game: selectedGame },
+      });
     }
   };
 
