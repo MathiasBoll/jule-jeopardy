@@ -1,0 +1,75 @@
+.jeopardy-back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 80px;
+  height: 200px;
+  background: linear-gradient(135deg, #1a5f4f 0%, #0d3d32 100%);
+  border: 3px solid #d4af37;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 2px 5px rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 10px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.jeopardy-back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6),
+    inset 0 2px 5px rgba(212, 175, 55, 0.5);
+  border-color: #ffd54f;
+}
+
+.jeopardy-back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5),
+    inset 0 1px 3px rgba(212, 175, 55, 0.3);
+}
+
+.back-arrow {
+  font-size: 2.5rem;
+  color: #d4af37;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.back-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-text span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d4af37;
+  font-family: "Arial", sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .jeopardy-back-button {
+    width: 60px;
+    height: 150px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .back-arrow {
+    font-size: 2rem;
+  }
+
+  .back-text span {
+    font-size: 1.2rem;
+  }
+}
