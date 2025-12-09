@@ -68,7 +68,16 @@ const GameBoardContent = () => {
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return (
+      <div className="error">
+        <h2>Error Loading Game</h2>
+        <p>{error}</p>
+        <p>Game ID: {gameId}</p>
+        <button onClick={() => (window.location.href = "/game-select")}>
+          Back to Game Selection
+        </button>
+      </div>
+    );
   }
 
   return (
