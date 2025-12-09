@@ -31,13 +31,7 @@ body {
 
 
   overflow-x: hidden;
-<<<<<<< HEAD
-
-
-  overflow-x: hidden;
-
-=======
->>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
+main
 }
 
 h1 {
@@ -45,20 +39,14 @@ h1 {
   line-height: 1.1;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
+main
 ul,
 ol,
 li {
   list-style: none;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ca9710d0698aa9d0921fa89056f6c86daf85f0f8
+main
 button {
   border-radius: 8px;
   border: 1px solid transparent;
