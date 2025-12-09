@@ -4,6 +4,7 @@ import GamesDashboard from "./pages/CMS/GamesDashboard";
 import GameBoardPage from "./pages/GameBoard/GameBoardPage";
 import JeopardyQuestion from "./pages/JeopardyQuestion/JeopardyQuestion";
 import Kategory from "./pages/Kategory/Kategory";
+import GameTable from "./pages/GameTable/GameTable";
 import "./styles/global.css";
 
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/games-dashboard" element={<GamesDashboard />} />
       <Route path="/jeopardy-question" element={<JeopardyQuestion />} />
       <Route path="/game-select" element={<GamesDashBoard />} />
+      <Route path="/game-table" element={<GameTable />} />
       <Route path="/game-play" element={<GameBoardPage />} />
       <Route path="/kategory" element={<Kategory />} />
       <Route path="/kategory/:gameId/:categoryId" element={<Kategory />} />

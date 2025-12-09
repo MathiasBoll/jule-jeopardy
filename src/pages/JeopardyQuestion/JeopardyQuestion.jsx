@@ -7,7 +7,9 @@ const JeopardyQuestion = () => {
     <section className={`sectionAdmin`}>
       <DashNav />
       <div className={`admin-container`}>
-        <JeopardyQuestionForm />
+        <div className="">
+          <JeopardyQuestionForm />
+        </div>
       </div>
     </section>
   );

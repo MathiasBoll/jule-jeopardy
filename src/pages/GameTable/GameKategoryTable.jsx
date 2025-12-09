@@ -1,21 +1,16 @@
 import React from "react";
-import FetchGame from "../CMS/FetchGame";
-import { GameKategory } from "./GameKategory";
-import { GamesTableHeader } from "./GamesTableHeader";
-import { CategoryLink } from "./CategoryLink";
 
-import { KategoryTable } from "./KategoryTable";
-import { CategoryTableRow } from "./CategoryTableRow";
-import s from "./DashBoard.module.css";
+import { GameKategory } from "../CMS/GameKategory";
+import { GamesTableHeader } from "../CMS/GamesTableHeader";
+import { CategoryLink } from "../CMS/CategoryLink";
 
-const GameKategoryTable = () => {
-  const { games, loading, error } = FetchGame();
+import { KategoryTable } from "../CMS/KategoryTable";
+import { CategoryTableRow } from "../CMS/CategoryTableRow";
+import s from "./GameTable.module.css";
 
-  if (loading) return <p>Loading games...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!games.length) return <p>No games found</p>;
+const GameKategoryTable = ({ game }) => {
+  if (!game) return <p>No game selected</p>;
 
-  const game = games[0];
   const categories = game.categories || [];
 
   return (
