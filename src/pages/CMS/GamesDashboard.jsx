@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import DashNav from "../DashNav/DashNav";
 import GameSelect from "../GameSelect/GameSelect";
-import GamesDashBoard from "../../components/GamesDashBoard/GamesDashBoard";
-import GameKategoryTable from "./GameKategoryTable";
+import GameKategoryTable from "../GameTable/GameKategoryTable";
 
 import s from "./DashBoard.module.css";
 
@@ -22,11 +21,9 @@ const GamesDashboard = () => {
               {!currentGame ? (
                 <GameSelect onSelect={setCurrentGame} />
               ) : (
-                <GamesDashBoard game={currentGame} />
+                <GameKategoryTable game={currentGame} />
               )}
             </div>
-            <GameKategoryTable />
-      
           </div>
         </div>
       </div>
