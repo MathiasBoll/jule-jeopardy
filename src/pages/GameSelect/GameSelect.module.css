@@ -1,0 +1,39 @@
+.btnContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  gap: 0.8rem;
+}
+
+.btn {
+  width: 100%;
+  min-width: 12rem;
+  max-width: 16rem;
+
+  color: var(--color-bg-light);
+  background-color: var(--button-bg);
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-link-hover);
+}
+
+.select {
+  width: 100%;
+  min-width: 12rem;
+  max-width: 16rem;
+
+  border: 1px solid #333;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: var(--color-text-light);
+  line-height: 1.1;
+  cursor: pointer;
+
+  background-color: transparent;
+}

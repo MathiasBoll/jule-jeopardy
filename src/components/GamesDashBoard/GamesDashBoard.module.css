@@ -1,0 +1,59 @@
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.selectContainer {
+  margin-top: 20px;
+}
+
+.label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.select {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.startButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.startButton:enabled {
+  background-color: #000;
+}
+
+.startButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.gameInfo {
+  margin-top: 30px;
+}
+
+.gameTitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.categoriesTitle {
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.categoriesList {
+  margin-top: 10px;
+}
