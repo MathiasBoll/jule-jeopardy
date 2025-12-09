@@ -1,7 +1,7 @@
 .team-setup-container {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a5f4f 0%, #2d8b6e 100%);
+  background: linear-gradient(135deg, #3d7a5a 0%, #2d5016 50%, #1f3a14 100%);
   overflow-x: hidden;
   padding: 20px;
 }
