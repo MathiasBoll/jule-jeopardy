@@ -26,20 +26,23 @@ const GameBoardContent = () => {
           return;
         }
 
-        console.log("Fetching game with ID:", gameId);
-        console.log("Game from state:", gameFromState);
+        console.log("GameBoardPage - Game ID:", gameId);
+        console.log("GameBoardPage - Game from state:", gameFromState);
 
-        // If we have the game from navigation state, use it directly
+        // Use game from state if available, otherwise fetch from API
         let game = gameFromState;
 
-        // Only fetch if we don't have the game data
         if (!game) {
+          console.log("GameBoardPage - No game in state, fetching from API...");
           game = await fetchGameById(gameId);
-          console.log("Fetched game from API:", game);
+          console.log("GameBoardPage - Fetched game:", game);
+        } else {
+          console.log("GameBoardPage - Using game from navigation state");
         }
 
+        // Fetch teams
         const teamsData = await fetchTeams();
-        console.log("Fetched teams:", teamsData);
+        console.log("GameBoardPage - Teams:", teamsData);
 
         if (!game) {
           setError("Game not found");
@@ -51,7 +54,7 @@ const GameBoardContent = () => {
         setTeams(teamsData.map((team) => ({ ...team, score: 0 })));
         setLoading(false);
       } catch (err) {
-        console.error("Error loading game:", err);
+        console.error("GameBoardPage - Error:", err);
         setError(err.message);
         setLoading(false);
       }
