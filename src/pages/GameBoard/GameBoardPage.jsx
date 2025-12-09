@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { fetchGameById } from "../../api/gameService";
 import { fetchTeams } from "../../api/teamService";
 import GameBoard from "../../components/game/GameBoard";
@@ -9,7 +9,9 @@ import "./GameBoardPage.css";
 
 const GameBoardContent = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
   const gameId = searchParams.get("gameId");
+  const gameFromState = location.state?.game;
   const { setCurrentGame, teams, setTeams } = useGame();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,10 +25,20 @@ const GameBoardContent = () => {
           return;
         }
 
-        const [game, teamsData] = await Promise.all([
-          fetchGameById(gameId),
-          fetchTeams(),
-        ]);
+        console.log("Fetching game with ID:", gameId);
+        console.log("Game from state:", gameFromState);
+
+        // If we have the game from navigation state, use it directly
+        let game = gameFromState;
+
+        // Only fetch if we don't have the game data
+        if (!game) {
+          game = await fetchGameById(gameId);
+          console.log("Fetched game from API:", game);
+        }
+
+        const teamsData = await fetchTeams();
+        console.log("Fetched teams:", teamsData);
 
         if (!game) {
           setError("Game not found");
@@ -38,20 +50,30 @@ const GameBoardContent = () => {
         setTeams(teamsData.map((team) => ({ ...team, score: 0 })));
         setLoading(false);
       } catch (err) {
+        console.error("Error loading game:", err);
         setError(err.message);
         setLoading(false);
       }
     };
 
     loadGameData();
-  }, [gameId, setCurrentGame, setTeams]);
+  }, [gameId, gameFromState, setCurrentGame, setTeams]);
 
   if (loading) {
     return <div className="loading">Loading game...</div>;
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return (
+      <div className="error">
+        <h2>Error Loading Game</h2>
+        <p>{error}</p>
+        <p>Game ID: {gameId}</p>
+        <button onClick={() => (window.location.href = "/game-select")}>
+          Back to Game Selection
+        </button>
+      </div>
+    );
   }
 
   return (
