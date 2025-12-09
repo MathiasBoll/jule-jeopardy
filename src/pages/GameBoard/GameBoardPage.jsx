@@ -3,6 +3,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { fetchGameById } from "../../api/gameService";
 import { fetchTeams } from "../../api/teamService";
 import GameBoard from "../../components/game/GameBoard";
+import BackButton from "../../components/ui/BackButton";
 import Modal from "../../components/ui/Modal";
 import { GameProvider, useGame } from "../../context/GameContext";
 import "./GameBoardPage.css";
@@ -78,6 +79,7 @@ const GameBoardContent = () => {
 
   return (
     <div className="container">
+      <BackButton to="/game-select" />
       <GameBoard />
       <TeamsDisplay teams={teams} />
       <Modal />

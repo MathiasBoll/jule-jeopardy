@@ -1,13 +1,14 @@
-import React from "react";
-import "./Home.css";
-import heroImg from "../../assets/img/hero_img.png";
-import heroElement1 from "../../assets/img/hero-element_1.png";
-import heroElement2 from "../../assets/img/hero-element_2.png";
+import { useNavigate } from "react-router-dom";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
+import heroElement1 from "../../assets/img/hero-element_1.png";
+import heroElement2 from "../../assets/img/hero-element_2.png";
+import heroImg from "../../assets/img/hero_img.png";
+import "./Home.css";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="home-container">
       <img src={heroImg} alt="Background decoration" className="hero-overlay" />
@@ -33,7 +34,12 @@ const Home = () => {
         </div>
 
         {/* Opstilling knap */}
-        <button className="opstilling-button">Opstilling</button>
+        <button
+          className="opstilling-button"
+          onClick={() => navigate("/game-select")}
+        >
+          Opstilling
+        </button>
       </div>
 
       {/* Bottom banner med hero-element 2 */}
