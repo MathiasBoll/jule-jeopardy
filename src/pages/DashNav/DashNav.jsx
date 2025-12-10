@@ -10,11 +10,12 @@ const DashNav = () => {
           <Link to={"/games-dashboard"}>Admin</Link>
         </li>
         <li className={s.dashItems}>
-          <Link to={"/kategory"}>Kategory</Link>
+          <Link to={"/game-table"}>Game Table</Link>
         </li>
         <li className={s.dashItems}>
-          <Link to={"/jeopardy-question"}>Jeopardy-Question</Link>
+          <Link to={"/kategory"}>Kategory</Link>
         </li>
+        <li className={s.dashItems}></li>
       </ul>
     </nav>
   );

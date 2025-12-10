@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import FetchGameById from "./FetchGameById";
 import { TruncatedText } from "./TruncatedText";
@@ -7,11 +7,12 @@ import DashBoardKategory from "./DashBoardKategory";
 import { KategoryTable } from "../CMS/KategoryTable";
 import { GamesTableHeader } from "../CMS/GamesTableHeader";
 import { CategoryTableRow } from "../CMS/CategoryTableRow";
+import { CategoryLink } from "../CMS/CategoryLink";
 
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();
   const { game, loading, error } = FetchGameById(gameId);
-  gameId;
+  const [ setEditingQuestion ] = useState(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -47,7 +48,22 @@ const KategoryGameTable = () => {
               <CategoryTableRow>
                 <TruncatedText text={q.answer} wordCount={3} />
               </CategoryTableRow>
-              <CategoryTableRow>Rediger</CategoryTableRow>
+              <CategoryTableRow>
+                <CategoryLink
+                  label="Rediger"
+                  onClick={() => {
+                    setEditingQuestion({
+                      questionId: q._id,
+                      initialData: {
+                        pointValue: q.value,
+                        question: q.question,
+                        answer: q.answer,
+                        notes: q.notes || "",
+                      },
+                    });
+                  }}
+                ></CategoryLink>
+              </CategoryTableRow>
             </tr>
           ))
         )}

@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import FetchGame from "../CMS/FetchGame";
 import s from "./GameSelect.module.css";
 
 const GameSelect = () => {
   const { games, loading, error } = FetchGame();
   const [selectedGameId, setSelectedGameId] = useState("");
-  const navigate = useNavigate();
 
   const selectedGame = games.find((g) => g._id === selectedGameId);
 
   const handleNext = () => {
     if (selectedGame) {
-      navigate("/game-play", { state: selectedGame });
+      onSelect(selectedGame);
     }
   };
 
@@ -33,9 +31,8 @@ const GameSelect = () => {
           </option>
         ))}
       </select>
-
       <button className={s.btn} onClick={handleNext} disabled={!selectedGame}>
-        Next / Play
+        View
       </button>
     </div>
   );
