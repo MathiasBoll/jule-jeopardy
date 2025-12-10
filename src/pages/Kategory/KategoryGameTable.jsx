@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import FetchGameById from "./FetchGameById";
 import { TruncatedText } from "./TruncatedText";
@@ -8,12 +8,11 @@ import { KategoryTable } from "../CMS/KategoryTable";
 import { GamesTableHeader } from "../CMS/GamesTableHeader";
 import { CategoryTableRow } from "../CMS/CategoryTableRow";
 import { CategoryLink } from "../CMS/CategoryLink";
-import JeopardyQuestionForm from "../JeopardyQuestion/JeopardyQuestionForm";
 
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();
   const { game, loading, error } = FetchGameById(gameId);
-  const [editingQuestionId, setEditingQuestionId] = useState(null);
+  // const [editingQuestionId, setEditingQuestionId] = useState(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -50,8 +49,9 @@ const KategoryGameTable = () => {
                 <TruncatedText text={q.answer} wordCount={3} />
               </CategoryTableRow>
               <CategoryTableRow>
-                <button
-                  onClick={() => setEditingQuestionId(q._id)}
+                <CategoryLink
+                  label="Rediger"
+                  to={`/dashboard/games/${gameId}/${categoryId}/question/${q._id}/edit`}
                   // () => setEditingQuestion(true)
                   // setEditingQuestion({
                   //   questionId: q._id,
@@ -62,9 +62,9 @@ const KategoryGameTable = () => {
                   //     notes: q.notes || "",
                   //   },
                   // });
-                ></button>
+                ></CategoryLink>
               </CategoryTableRow>
-              {editingQuestionId === q._id && (
+              {/* {editingQuestionId === q._id && (
                 <tr>
                   <td colSpan="4">
                     <JeopardyQuestionForm
@@ -78,7 +78,7 @@ const KategoryGameTable = () => {
                     />
                   </td>
                 </tr>
-              )}
+              )} */}
             </tr>
           ))
         )}

@@ -16,17 +16,10 @@ const useFetchQuestion = (gameId, categoryId, questionId) => {
 
       try {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/games`);
-        if (!res.ok) throw new Error("Kunne ikke hente spil");
-
         const data = await res.json();
         const game = data.data.find((g) => g._id === gameId);
-        if (!game) throw new Error("Game not found");
-
         const category = game.categories.find((c) => c._id === categoryId);
-        if (!category) throw new Error("Category not found");
-
         const q = category.questions.find((q) => q._id === questionId);
-        if (!q) throw new Error("Question not found");
 
         setQuestion(q);
       } catch (err) {
