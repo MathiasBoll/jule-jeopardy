@@ -2,7 +2,7 @@
 // Formular til at oprette/redigere ét Jeopardy-spørgsmål.
 // Indeholder al logik til fetch, validering og UI state.
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const POINT_VALUES = [100, 200, 300, 400, 500];
 
@@ -25,6 +25,18 @@ const JeopardyQuestionForm = ({
       notes: "",
     }
   );
+
+  useEffect(() => {
+    console.log("initialData", initialData);
+    if (initialData) {
+      setFormData({
+        pointValue: initialData.pointValue || initialData.value || "100",
+        question: initialData.question || "",
+        answer: initialData.answer || "",
+        notes: initialData.notes || "",
+      });
+    }
+  }, [initialData]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -125,8 +137,6 @@ const JeopardyQuestionForm = ({
 
   return (
     <>
-    
-
       <div className="jq-panel">
         {/* Header med breadcrumb og titler */}
         <header className="jq-header">
