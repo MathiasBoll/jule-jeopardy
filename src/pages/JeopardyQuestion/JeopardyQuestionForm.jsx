@@ -125,7 +125,7 @@ const JeopardyQuestionForm = ({
 
   return (
     <>
-      <h2>{isEditMode ? "Rediger" : "Opret"} Jeopardy Spørgsmål</h2>
+    
 
       <div className="jq-panel">
         {/* Header med breadcrumb og titler */}
