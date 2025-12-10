@@ -8,12 +8,11 @@ import { KategoryTable } from "../CMS/KategoryTable";
 import { GamesTableHeader } from "../CMS/GamesTableHeader";
 import { CategoryTableRow } from "../CMS/CategoryTableRow";
 import { CategoryLink } from "../CMS/CategoryLink";
-import { CategoryLink } from "../CMS/CategoryLink";
 
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();
   const { game, loading, error } = FetchGameById(gameId);
-  const [ setEditingQuestion ] = useState(null);
+  const [setEditingQuestion] = useState(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
