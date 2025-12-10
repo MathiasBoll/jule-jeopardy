@@ -15,7 +15,9 @@ const DashNav = () => {
         <li className={s.dashItems}>
           <Link to={"/kategory"}>Kategory</Link>
         </li>
-        <li className={s.dashItems}></li>
+        <li className={s.dashItems}>
+          <Link to={"/jeopardy-question"}>Question</Link>
+        </li>
       </ul>
     </nav>
   );

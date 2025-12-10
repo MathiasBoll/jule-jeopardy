@@ -8,6 +8,7 @@ import { KategoryTable } from "../CMS/KategoryTable";
 import { GamesTableHeader } from "../CMS/GamesTableHeader";
 import { CategoryTableRow } from "../CMS/CategoryTableRow";
 import { CategoryLink } from "../CMS/CategoryLink";
+import { CategoryLink } from "../CMS/CategoryLink";
 
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();

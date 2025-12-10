@@ -124,15 +124,21 @@ const JeopardyQuestionForm = ({
   const safeCategoryName = categoryName || "Julemad";
 
   return (
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/pages/QuestionForm/JeopardyQuestionForm.jsx
     <>
       <h2>{isEditMode ? "Rediger" : "Opret"} Jeopardy Spørgsmål</h2>
 ========
+=======
+>>>>>>> a64e5ec02b2bdece90243cfbe8497d460d37edd3
     <div className="jq-panel">
       {/* Header med breadcrumb og titler */}
       <header className="jq-header">
         <p className="jq-breadcrumb">ADMIN · SPØRGSMÅL</p>
+<<<<<<< HEAD
 >>>>>>>> a64e5ec02b2bdece90243cfbe8497d460d37edd3:src/pages/JeopardyQuestion/JeopardyQuestionForm.jsx
+=======
+>>>>>>> a64e5ec02b2bdece90243cfbe8497d460d37edd3
 
         <h1 className="jq-title">
           {isEditMode ? "Rediger Jeopardy-spørgsmål" : "Opret Jeopardy-spørgsmål"}
