@@ -120,7 +120,7 @@ const JeopardyQuestionForm = ({
   };
 
   // Brug fallback-tekster hvis gameName/categoryName ikke er givet
-  const safeGameName = gameName || "Jule Jeopardy – 9.b";
+  const safeGameName = gameName || "Jule Jeopardy ";
   const safeCategoryName = categoryName || "Julemad";
 
   return (
