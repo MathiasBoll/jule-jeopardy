@@ -14,8 +14,8 @@ const GamesDashboard = () => {
         <aside className={`sidebar`}>
           <DashNav />
         </aside>
-        <div className={`container `}>
-          <h2 className={s.dashTitle}>Games Dash Board</h2>
+        <div className={`container`}>
+          <h2 className={s.adminTitle}>Games Dash Board</h2>
           <div className={s.tableContainer}>
             <div className={s.selectItems}>
               {!currentGame ? (
