@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FetchGame from "../CMS/FetchGame";
 import s from "./GameSelect.module.css";
 
-const GameSelect = () => {
+const GameSelect = ({ onSelect}) => {
   const { games, loading, error } = FetchGame();
   const [selectedGameId, setSelectedGameId] = useState("");
 

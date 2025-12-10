@@ -8,11 +8,12 @@ import { KategoryTable } from "../CMS/KategoryTable";
 import { GamesTableHeader } from "../CMS/GamesTableHeader";
 import { CategoryTableRow } from "../CMS/CategoryTableRow";
 import { CategoryLink } from "../CMS/CategoryLink";
+import JeopardyQuestionForm from "../JeopardyQuestion/JeopardyQuestionForm";
 
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();
   const { game, loading, error } = FetchGameById(gameId);
-  const [setEditingQuestion] = useState(null);
+  const [editingQuestionId, setEditingQuestionId] = useState(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -49,21 +50,35 @@ const KategoryGameTable = () => {
                 <TruncatedText text={q.answer} wordCount={3} />
               </CategoryTableRow>
               <CategoryTableRow>
-                <CategoryLink
-                  label="Rediger"
-                  onClick={() => {
-                    setEditingQuestion({
-                      questionId: q._id,
-                      initialData: {
+                <button
+                  onClick={() => setEditingQuestionId(q._id)}
+                  // () => setEditingQuestion(true)
+                  // setEditingQuestion({
+                  //   questionId: q._id,
+                  //   initialData: {
+                  //     pointValue: q.value,
+                  //     question: q.question,
+                  //     answer: q.answer,
+                  //     notes: q.notes || "",
+                  //   },
+                  // });
+                ></button>
+              </CategoryTableRow>
+              {editingQuestionId === q._id && (
+                <tr>
+                  <td colSpan="4">
+                    <JeopardyQuestionForm
+                      questionId={q._id}
+                      initialData={{
                         pointValue: q.value,
                         question: q.question,
                         answer: q.answer,
                         notes: q.notes || "",
-                      },
-                    });
-                  }}
-                ></CategoryLink>
-              </CategoryTableRow>
+                      }}
+                    />
+                  </td>
+                </tr>
+              )}
             </tr>
           ))
         )}
