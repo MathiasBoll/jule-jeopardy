@@ -1,16 +1,43 @@
+// src/pages/JeopardyQuestion/JeopardyQuestion.jsx
+// Side-wrapper for admin-spørgsmålsformularen
+// - Viser DashNav i venstre side
+// - Centrerer selve formular-panelet i resten af viewporten
+
 import React from "react";
+import { useParams } from "react-router-dom";
 import DashNav from "../DashNav/DashNav";
-import JeopardyQuestionForm from "../JeopardyQuestion/JeopardyQuestionForm";
+import JeopardyQuestionForm from "./JeopardyQuestionForm";
+import useFetchQuestion from "./useFetchQuestion";
+
+// ✅ CSS’en ligger i samme mappe som denne fil
+import "./JeopardyQuestion.css";
 
 const JeopardyQuestion = () => {
+  const { gameId, categoryId, questionId } = useParams();
+  const { question, loading, error } = useFetchQuestion(
+    gameId,
+    categoryId,
+    questionId
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    <section className={`sectionAdmin`}>
+    <section className="sectionAdmin">
+      {/* Venstre admin-navigation */}
       <DashNav />
-      <div className={`admin-container`}>
-        <div className="">
-          <JeopardyQuestionForm />
-        </div>
-      </div>
+
+      {/* Højre område hvor selve panelet ligger */}
+      <main className="jq-admin-main">
+        {/* Formularen står for indholdet af panelet */}
+        <JeopardyQuestionForm
+          gameId={gameId}
+          categoryId={categoryId}
+          questionId={questionId}
+          initialData={question}
+        />
+      </main>
     </section>
   );
 };

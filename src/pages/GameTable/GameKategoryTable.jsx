@@ -34,8 +34,7 @@ const GameKategoryTable = ({ game }) => {
                 <CategoryTableRow>{cat.name}</CategoryTableRow>
                 <CategoryTableRow>
                   <CategoryLink
-                    gameId={game._id}
-                    categoryId={cat._id}
+                    to={`/kategory/${game._id}/${cat._id}`}
                     label="Rediger"
                   ></CategoryLink>
                 </CategoryTableRow>

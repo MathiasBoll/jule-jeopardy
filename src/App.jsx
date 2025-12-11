@@ -16,7 +16,16 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/games-dashboard" element={<GamesDashboard />} />
-      <Route path="/jeopardy-question" element={<JeopardyQuestion />} />
+      <Route
+        path="/dashboard/games/:gameId/:categoryId/question/new"
+        element={<JeopardyQuestion />}
+      />
+
+      {/* Edit question */}
+      <Route
+        path="/dashboard/games/:gameId/:categoryId/question/:questionId/edit"
+        element={<JeopardyQuestion />}
+      />
       <Route path="/game-select" element={<TeamSetup />} />
       <Route path="/game-table" element={<GameTable />} />
       <Route path="/game-play" element={<GameBoardPage />} />
