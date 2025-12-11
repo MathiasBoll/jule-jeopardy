@@ -29,7 +29,6 @@ body {
   padding: 0;
   min-height: 100vh;
 
-
   overflow-x: hidden;
 }
 
@@ -45,7 +44,6 @@ li {
   list-style: none;
 }
 
-main
 button {
   border-radius: 8px;
   border: 1px solid transparent;

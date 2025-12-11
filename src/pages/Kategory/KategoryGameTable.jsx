@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import FetchGameById from "./FetchGameById";
 import { TruncatedText } from "./TruncatedText";
@@ -12,7 +12,7 @@ import { CategoryLink } from "../CMS/CategoryLink";
 const KategoryGameTable = () => {
   const { gameId, categoryId } = useParams();
   const { game, loading, error } = FetchGameById(gameId);
-  const [editingQuestion, setEditingQuestion] = useState(null);
+  // const [editingQuestionId, setEditingQuestionId] = useState(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -51,19 +51,34 @@ const KategoryGameTable = () => {
               <CategoryTableRow>
                 <CategoryLink
                   label="Rediger"
-                  onClick={() => {
-                    setEditingQuestion({
-                      questionId: q._id,
-                      initialData: {
+                  to={`/dashboard/games/${gameId}/${categoryId}/question/${q._id}/edit`}
+                  // () => setEditingQuestion(true)
+                  // setEditingQuestion({
+                  //   questionId: q._id,
+                  //   initialData: {
+                  //     pointValue: q.value,
+                  //     question: q.question,
+                  //     answer: q.answer,
+                  //     notes: q.notes || "",
+                  //   },
+                  // });
+                ></CategoryLink>
+              </CategoryTableRow>
+              {/* {editingQuestionId === q._id && (
+                <tr>
+                  <td colSpan="4">
+                    <JeopardyQuestionForm
+                      questionId={q._id}
+                      initialData={{
                         pointValue: q.value,
                         question: q.question,
                         answer: q.answer,
                         notes: q.notes || "",
-                      },
-                    });
-                  }}
-                ></CategoryLink>
-              </CategoryTableRow>
+                      }}
+                    />
+                  </td>
+                </tr>
+              )} */}
             </tr>
           ))
         )}

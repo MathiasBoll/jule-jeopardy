@@ -12,12 +12,12 @@ const DashNav = () => {
         <li className={s.dashItems}>
           <Link to={"/game-table"}>Game Table</Link>
         </li>
-        <li className={s.dashItems}>
+        {/* <li className={s.dashItems}>
           <Link to={"/kategory"}>Kategory</Link>
         </li>
         <li className={s.dashItems}>
           <Link to={"/jeopardy-question"}>Question</Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
