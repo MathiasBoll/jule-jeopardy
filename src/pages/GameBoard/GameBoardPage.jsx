@@ -41,27 +41,26 @@ const GameBoardContent = () => {
           console.log("GameBoardPage - Using game from navigation state");
         }
 
-        // Load teams from localStorage (with scores) or sessionStorage (initial setup)
+        // Load teams - always prioritize sessionStorage (fresh from TeamSetup)
         let teamsData = [];
-        const storedGameTeams = localStorage.getItem("gameTeams");
+        const storedTeams = sessionStorage.getItem("teams");
 
-        if (storedGameTeams) {
-          // Use teams with existing scores from localStorage
-          teamsData = JSON.parse(storedGameTeams);
-          console.log("GameBoardPage - Teams from localStorage:", teamsData);
+        if (storedTeams) {
+          // Fresh teams from TeamSetup - clear old data and use these
+          teamsData = JSON.parse(storedTeams).map((team, index) => ({
+            ...team,
+            id: team.id || index + 1,
+            score: 0,
+          }));
+          localStorage.setItem("gameTeams", JSON.stringify(teamsData));
+          sessionStorage.removeItem("teams");
+          console.log("GameBoardPage - Fresh teams from TeamSetup:", teamsData);
         } else {
-          // First time loading, get from sessionStorage
-          const storedTeams = sessionStorage.getItem("teams");
-          if (storedTeams) {
-            teamsData = JSON.parse(storedTeams).map((team) => ({
-              ...team,
-              score: 0,
-            }));
-            localStorage.setItem("gameTeams", JSON.stringify(teamsData));
-            console.log(
-              "GameBoardPage - Teams from sessionStorage:",
-              teamsData
-            );
+          // No fresh teams, check localStorage for ongoing game
+          const storedGameTeams = localStorage.getItem("gameTeams");
+          if (storedGameTeams) {
+            teamsData = JSON.parse(storedGameTeams);
+            console.log("GameBoardPage - Teams from localStorage:", teamsData);
           } else {
             console.log("GameBoardPage - No teams found, using default");
             teamsData = [{ id: 1, name: "Hold 1", score: 0 }];
