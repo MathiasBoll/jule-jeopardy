@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "./BackButton.css";
 
+// Tilbage-knap komponent - navigerer til forrige side eller specifik rute
 const BackButton = ({ to }) => {
   const navigate = useNavigate();
 
+  // Navigerer til specifik rute hvis angivet, ellers går tilbage
   const handleClick = () => {
     if (to) {
       navigate(to);

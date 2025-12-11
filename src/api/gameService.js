@@ -1,12 +1,14 @@
+// API URL til Jeopardy backend
 const API_URL = "https://jeopardy-gkiyb.ondigitalocean.app";
 
-// Games
+// Henter alle spil fra API'en
 export const fetchGames = async () => {
   const response = await fetch(`${API_URL}/games`);
   const data = await response.json();
   return data.data || [];
 };
 
+// Henter et specifikt spil baseret på ID
 export const fetchGameById = async (gameId) => {
   if (!gameId) return null;
   const response = await fetch(`${API_URL}/game/${gameId}`);
@@ -14,6 +16,7 @@ export const fetchGameById = async (gameId) => {
   return data.data || null;
 };
 
+// Opretter et nyt spil i API'en
 export const createGame = async (gameData) => {
   const response = await fetch(`${API_URL}/game`, {
     method: "POST",
@@ -23,6 +26,7 @@ export const createGame = async (gameData) => {
   return await response.json();
 };
 
+// Opdaterer et eksisterende spil
 export const updateGame = async (gameData) => {
   const response = await fetch(`${API_URL}/game`, {
     method: "PUT",
@@ -32,6 +36,7 @@ export const updateGame = async (gameData) => {
   return await response.json();
 };
 
+// Sletter et spil baseret på ID
 export const deleteGame = async (gameId) => {
   const response = await fetch(`${API_URL}/game/${gameId}`, {
     method: "DELETE",
@@ -39,6 +44,7 @@ export const deleteGame = async (gameId) => {
   return await response.json();
 };
 
+// Tilføjer hold til et spil
 export const addTeamsToGame = async (gameId, teamIds) => {
   const response = await fetch(`${API_URL}/game/${gameId}/add-teams`, {
     method: "POST",
