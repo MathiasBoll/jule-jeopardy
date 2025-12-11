@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 
 const GameContext = createContext();
@@ -7,19 +8,23 @@ export const GameProvider = ({ children }) => {
   const [teams, setTeams] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const [lastQuestionValue, setLastQuestionValue] = useState(100);
 
   const markQuestionAsAnswered = (questionId) => {
     setAnsweredQuestions((prev) => [...prev, questionId]);
   };
 
   const updateTeamScore = (teamId, points) => {
-    setTeams((prevTeams) =>
-      prevTeams.map((team) =>
-        team._id === teamId
+    setTeams((prevTeams) => {
+      const updatedTeams = prevTeams.map((team) =>
+        team.id === teamId
           ? { ...team, score: (team.score || 0) + points }
           : team
-      )
-    );
+      );
+      // Save to localStorage
+      localStorage.setItem("gameTeams", JSON.stringify(updatedTeams));
+      return updatedTeams;
+    });
   };
 
   const value = {
@@ -32,6 +37,8 @@ export const GameProvider = ({ children }) => {
     answeredQuestions,
     markQuestionAsAnswered,
     updateTeamScore,
+    lastQuestionValue,
+    setLastQuestionValue,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

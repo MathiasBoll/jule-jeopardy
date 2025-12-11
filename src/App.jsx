@@ -5,6 +5,7 @@ import GameTable from "./pages/GameTable/GameTable";
 import Home from "./pages/Home/Home";
 import JeopardyQuestion from "./pages/JeopardyQuestion/JeopardyQuestion";
 import Kategory from "./pages/Kategory/Kategory";
+import Podium from "./pages/Podium/Podium";
 import TeamSetup from "./pages/TeamSetup/TeamSetup";
 import "./styles/global.css";
 
@@ -29,6 +30,7 @@ export default function App() {
       <Route path="/game-select" element={<TeamSetup />} />
       <Route path="/game-table" element={<GameTable />} />
       <Route path="/game-play" element={<GameBoardPage />} />
+      <Route path="/podium" element={<Podium />} />
       <Route path="/kategory" element={<Kategory />} />
       <Route path="/kategory/:gameId/:categoryId" element={<Kategory />} />
     </Routes>
