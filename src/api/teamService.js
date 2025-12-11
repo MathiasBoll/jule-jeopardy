@@ -1,18 +1,21 @@
+// API URL til Jeopardy backend
 const API_URL = "https://jeopardy-gkiyb.ondigitalocean.app";
 
-// Teams
+// Henter alle hold fra API'en
 export const fetchTeams = async () => {
   const response = await fetch(`${API_URL}/teams`);
   const data = await response.json();
   return data.data || [];
 };
 
+// Henter liste over tilgængelige hold-billeder
 export const fetchTeamImages = async () => {
   const response = await fetch(`${API_URL}/teams/images`);
   const data = await response.json();
   return data.data || [];
 };
 
+// Opretter et nyt hold i API'en
 export const createTeam = async (teamData) => {
   const response = await fetch(`${API_URL}/team`, {
     method: "POST",
@@ -22,6 +25,7 @@ export const createTeam = async (teamData) => {
   return await response.json();
 };
 
+// Opdaterer et eksisterende hold
 export const updateTeam = async (teamData) => {
   const response = await fetch(`${API_URL}/team`, {
     method: "PUT",
@@ -31,6 +35,7 @@ export const updateTeam = async (teamData) => {
   return await response.json();
 };
 
+// Sletter et hold baseret på ID
 export const deleteTeam = async (teamId) => {
   const response = await fetch(`${API_URL}/team/${teamId}`, {
     method: "DELETE",
@@ -38,6 +43,7 @@ export const deleteTeam = async (teamId) => {
   return await response.json();
 };
 
+// Opdaterer et holds score
 export const updateTeamScore = async (teamId, score) => {
   const response = await fetch(`${API_URL}/team/${teamId}`, {
     method: "PATCH",

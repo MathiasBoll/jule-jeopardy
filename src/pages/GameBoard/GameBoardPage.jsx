@@ -9,15 +9,19 @@ import Snowfall from "../../components/ui/Snowfall";
 import { GameProvider, useGame } from "../../context/GameContext";
 import "./GameBoardPage.css";
 
+// Hovedindhold af spilsiden - håndterer indlæsning af spil og hold
 const GameBoardContent = () => {
+  // Henter gameId fra URL-parametre
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const gameId = searchParams.get("gameId");
+  // Spildata fra navigation state (hvis tilgængelig)
   const gameFromState = location.state?.game;
   const { setCurrentGame, teams, setTeams } = useGame();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Indlæser spildata og hold når komponenten mountes
   useEffect(() => {
     const loadGameData = async () => {
       try {
@@ -30,7 +34,7 @@ const GameBoardContent = () => {
         console.log("GameBoardPage - Game ID:", gameId);
         console.log("GameBoardPage - Game from state:", gameFromState);
 
-        // Use game from state if available, otherwise fetch from API
+        // Brug spil fra state hvis tilgængeligt, ellers hent fra API
         let game = gameFromState;
 
         if (!game) {
@@ -41,12 +45,12 @@ const GameBoardContent = () => {
           console.log("GameBoardPage - Using game from navigation state");
         }
 
-        // Load teams - always prioritize sessionStorage (fresh from TeamSetup)
+        // Indlæs hold - prioriter sessionStorage (friske hold fra TeamSetup)
         let teamsData = [];
         const storedTeams = sessionStorage.getItem("teams");
 
         if (storedTeams) {
-          // Fresh teams from TeamSetup - clear old data and use these
+          // Friske hold fra TeamSetup - ryd gamle data og brug disse
           teamsData = JSON.parse(storedTeams).map((team, index) => ({
             ...team,
             id: team.id || index + 1,
@@ -56,12 +60,13 @@ const GameBoardContent = () => {
           sessionStorage.removeItem("teams");
           console.log("GameBoardPage - Fresh teams from TeamSetup:", teamsData);
         } else {
-          // No fresh teams, check localStorage for ongoing game
+          // Ingen friske hold - tjek localStorage for igangværende spil
           const storedGameTeams = localStorage.getItem("gameTeams");
           if (storedGameTeams) {
             teamsData = JSON.parse(storedGameTeams);
             console.log("GameBoardPage - Teams from localStorage:", teamsData);
           } else {
+            // Ingen hold fundet - brug standard
             console.log("GameBoardPage - No teams found, using default");
             teamsData = [{ id: 1, name: "Hold 1", score: 0 }];
             localStorage.setItem("gameTeams", JSON.stringify(teamsData));
@@ -120,11 +125,12 @@ const GameBoardContent = () => {
   );
 };
 
+// Komponent der viser holdene og deres scores nederst på skærmen
 const TeamsDisplay = ({ teams }) => {
   const navigate = useNavigate();
   const { updateTeamScore, lastQuestionValue } = useGame();
 
-  // Import icon images
+  // Mapping af ikon-navne til filstier
   const iconMap = {
     star: "/src/assets/icon/star_yellow.svg",
     tree: "/src/assets/icon/tree.svg",
@@ -134,14 +140,17 @@ const TeamsDisplay = ({ teams }) => {
     ornament: "/src/assets/icon/ornament.svg",
   };
 
+  // Navigerer til podium-siden med holddata
   const handleShowPodium = () => {
     navigate("/podium", { state: { teams } });
   };
 
+  // Tilføjer point til et hold
   const handleAddPoints = (teamId) => {
     updateTeamScore(teamId, lastQuestionValue);
   };
 
+  // Trækker point fra et hold
   const handleSubtractPoints = (teamId) => {
     updateTeamScore(teamId, -lastQuestionValue);
   };
@@ -194,6 +203,7 @@ const TeamsDisplay = ({ teams }) => {
   );
 };
 
+// Hovedkomponent for spilsiden - wrapper med GameProvider for state management
 const GameBoardPage = () => {
   return (
     <GameProvider>

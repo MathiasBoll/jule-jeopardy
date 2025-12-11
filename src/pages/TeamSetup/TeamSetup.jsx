@@ -15,17 +15,23 @@ import heroImg from "../../assets/img/hero_img.png";
 import BackButton from "../../components/ui/BackButton";
 import "./TeamSetup.css";
 
+// ID på det spil vi bruger - hentet fra API'en
 const GAME_ID = "693aab5197124700f6901873";
 
+// Komponent til opsætning af hold før spillet starter
 const TeamSetup = () => {
+  // State til spildata fra API'en
   const [game, setGame] = useState(null);
+  // State til antal hold (1-6)
   const [teamCount, setTeamCount] = useState(2);
+  // State til holdenes data (navn, ikon, farve)
   const [teams, setTeams] = useState([
     { name: "Hold 1", icon: "star", color: "yellow" },
     { name: "Hold 2", icon: "tree", color: "green" },
   ]);
   const navigate = useNavigate();
 
+  // Tilgængelige ikoner til holdene
   const iconOptions = [
     { name: "star", icon: starIcon, color: "yellow" },
     { name: "tree", icon: treeIcon, color: "green" },
@@ -35,6 +41,7 @@ const TeamSetup = () => {
     { name: "ornament", icon: ornamentIcon, color: "red" },
   ];
 
+  // Henter spildata fra API'en når komponenten indlæses
   useEffect(() => {
     const loadGame = async () => {
       try {
@@ -47,10 +54,12 @@ const TeamSetup = () => {
     loadGame();
   }, []);
 
+  // Håndterer ændring af antal hold
   const handleTeamCountChange = (increment) => {
     const newCount = Math.max(1, Math.min(6, teamCount + increment));
     setTeamCount(newCount);
 
+    // Tilføjer nye hold hvis antallet øges
     if (newCount > teams.length) {
       const newTeams = [...teams];
       for (let i = teams.length; i < newCount; i++) {
@@ -62,16 +71,19 @@ const TeamSetup = () => {
       }
       setTeams(newTeams);
     } else if (newCount < teams.length) {
+      // Fjerner hold hvis antallet mindskes
       setTeams(teams.slice(0, newCount));
     }
   };
 
+  // Håndterer ændring af holdnavn
   const handleTeamNameChange = (index, newName) => {
     const updatedTeams = [...teams];
     updatedTeams[index] = { ...updatedTeams[index], name: newName };
     setTeams(updatedTeams);
   };
 
+  // Håndterer valg af ikon til et hold
   const handleIconSelect = (index, iconName, color) => {
     const updatedTeams = [...teams];
     updatedTeams[index] = {
@@ -82,18 +94,19 @@ const TeamSetup = () => {
     setTeams(updatedTeams);
   };
 
+  // Starter spillet - opretter hold i API'en og navigerer til spilsiden
   const handleStartGame = async () => {
     if (!game) return;
 
     try {
-      // Delete old teams from API
+      // Slet gamle hold fra API'en
       const existingTeams = await fetchTeams();
       console.log("Deleting old teams from API:", existingTeams);
       for (const team of existingTeams) {
         await deleteTeam(team._id);
       }
 
-      // Create new teams in API
+      // Opret nye hold i API'en
       const createdTeamIds = [];
       const apiImages = [
         "https://jeopardy-gkiyb.ondigitalocean.app/teams/team1.png",
@@ -115,17 +128,18 @@ const TeamSetup = () => {
         }
       }
 
-      // Add teams to the game
+      // Tilføj holdene til spillet
       console.log("Adding teams to game:", createdTeamIds);
       if (createdTeamIds.length > 0) {
         await addTeamsToGame(GAME_ID, createdTeamIds);
       }
 
-      // Clear old game data and store fresh teams
+      // Ryd gamle spildata og gem de nye hold
       localStorage.removeItem("gameTeams");
       localStorage.removeItem("answeredQuestions");
       sessionStorage.setItem("teams", JSON.stringify(teams));
 
+      // Naviger til spilsiden
       navigate(`/game-play?gameId=${GAME_ID}`, {
         state: { game },
       });

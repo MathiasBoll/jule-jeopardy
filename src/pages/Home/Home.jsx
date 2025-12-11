@@ -8,7 +8,9 @@ import heroElement2 from "../../assets/img/hero-element_2.png";
 import heroImg from "../../assets/img/hero_img.png";
 import "./Home.css";
 
+// Forsiden af Jule Jeopardy - viser titel og knap til at starte spillet
 const Home = () => {
+  // Hook til navigation mellem sider
   const navigate = useNavigate();
   return (
     <div className="home-container">

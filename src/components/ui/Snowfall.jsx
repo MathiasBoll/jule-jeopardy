@@ -1,5 +1,6 @@
 import "./Snowfall.css";
 
+// SVG-komponent for et enkelt snefnug
 const SnowflakeSVG = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="snowflake-svg">
     <path
@@ -11,6 +12,7 @@ const SnowflakeSVG = () => (
   </svg>
 );
 
+// Snefald-animation - viser 40 faldende snefnug
 const Snowfall = () => {
   return (
     <div className="snowfall-container">
