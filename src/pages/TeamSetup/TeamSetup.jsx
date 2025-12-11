@@ -4,7 +4,9 @@ import { fetchGames } from "../../api/gameService";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
+import bellIcon from "../../assets/icon/bell.svg";
 import giftIcon from "../../assets/icon/gift.svg";
+import ornamentIcon from "../../assets/icon/ornament.svg";
 import snowflakeIcon from "../../assets/icon/snowflake.svg";
 import starIcon from "../../assets/icon/star_yellow.svg";
 import treeIcon from "../../assets/icon/tree.svg";
@@ -27,6 +29,8 @@ const TeamSetup = () => {
     { name: "tree", icon: treeIcon, color: "green" },
     { name: "snowflake", icon: snowflakeIcon, color: "white" },
     { name: "gift", icon: giftIcon, color: "red" },
+    { name: "bell", icon: bellIcon, color: "yellow" },
+    { name: "ornament", icon: ornamentIcon, color: "red" },
   ];
 
   useEffect(() => {
@@ -49,11 +53,10 @@ const TeamSetup = () => {
     const newCount = Math.max(1, Math.min(6, teamCount + increment));
     setTeamCount(newCount);
 
-    const newTeams = [];
-    for (let i = 0; i < newCount; i++) {
-      if (teams[i]) {
-        newTeams.push(teams[i]);
-      } else {
+    if (newCount > teams.length) {
+      // Adding teams
+      const newTeams = [...teams];
+      for (let i = teams.length; i < newCount; i++) {
         newTeams.push({
           id: i + 1,
           name: `Hold ${i + 1}`,
@@ -61,8 +64,11 @@ const TeamSetup = () => {
           color: iconOptions[i % iconOptions.length].color,
         });
       }
+      setTeams(newTeams);
+    } else if (newCount < teams.length) {
+      // Removing teams
+      setTeams(teams.slice(0, newCount));
     }
-    setTeams(newTeams);
   };
 
   const handleTeamNameChange = (teamId, newName) => {
@@ -85,9 +91,12 @@ const TeamSetup = () => {
     if (selectedGameId) {
       const selectedGame = games.find((g) => g._id === selectedGameId);
       console.log("TeamSetup - Starting game:", selectedGame);
-      console.log("TeamSetup - Game has categories?", selectedGame?.categories);
-      // Store team configuration in sessionStorage or pass via state
+      console.log("TeamSetup - Teams being stored:", teams);
+
+      // Clear old game data and store fresh teams
+      localStorage.removeItem("gameTeams");
       sessionStorage.setItem("teams", JSON.stringify(teams));
+
       navigate(`/game-play?gameId=${selectedGameId}`, {
         state: { game: selectedGame },
       });
@@ -100,7 +109,7 @@ const TeamSetup = () => {
       <img
         src={heroImg}
         alt="Background decoration"
-        className="hero-background"
+        className="teamsetup-hero-background"
       />
 
       <div className="baubles-decoration">

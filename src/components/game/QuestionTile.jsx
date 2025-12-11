@@ -2,11 +2,12 @@ import { useGame } from "../../context/GameContext";
 import s from "./QuestionTile.module.css";
 
 const QuestionTile = ({ question, isAnswered }) => {
-  const { setSelectedQuestion } = useGame();
+  const { setSelectedQuestion, setLastQuestionValue } = useGame();
 
   const handleClick = () => {
     if (!isAnswered) {
       setSelectedQuestion(question);
+      setLastQuestionValue(question.value);
     }
   };
 
