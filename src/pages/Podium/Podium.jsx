@@ -3,12 +3,14 @@ import heroImg from "../../assets/img/hero_img.png";
 import CountUp from "../../components/ui/CountUp";
 import "./Podium.css";
 
+// Podium-siden - viser vinderne efter spillet er slut
 const Podium = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // Henter holddata fra navigation state
   const teams = location.state?.teams || [];
 
-  // Icon mapping
+  // Mapping af ikon-navne til filstier
   const iconMap = {
     star: "/src/assets/icon/star_yellow.svg",
     tree: "/src/assets/icon/tree.svg",
@@ -18,16 +20,17 @@ const Podium = () => {
     ornament: "/src/assets/icon/ornament.svg",
   };
 
-  // Sort teams by score in descending order
+  // Sorterer hold efter score (højeste først)
   const sortedTeams = [...teams].sort(
     (a, b) => (b.score || 0) - (a.score || 0)
   );
 
-  // Get top 3 for podium
+  // Henter top 3 til podiet
   const podiumTeams = sortedTeams.slice(0, 3);
+  // Resterende hold vises i tabel
   const remainingTeams = sortedTeams.slice(3);
 
-  // Podium positions (2nd, 1st, 3rd visual order)
+  // Podium-rækkefølge (2., 1., 3. visuelt)
   const podiumOrder =
     podiumTeams.length >= 3
       ? [podiumTeams[1], podiumTeams[0], podiumTeams[2]]
@@ -35,14 +38,17 @@ const Podium = () => {
       ? [podiumTeams[1], podiumTeams[0]]
       : podiumTeams;
 
+  // Navigerer til spilvalg for at spille igen
   const handlePlayAgain = () => {
     navigate("/game-select");
   };
 
+  // Navigerer tilbage til forsiden
   const handleBackToMenu = () => {
     navigate("/home");
   };
 
+  // Returnerer CSS-klasse baseret på podium-position
   const getPodiumClass = (index) => {
     if (podiumTeams.length >= 3) {
       return index === 0 ? "second" : index === 1 ? "first" : "third";
@@ -53,6 +59,7 @@ const Podium = () => {
     }
   };
 
+  // Returnerer placeringstal baseret på index
   const getPodiumPosition = (index) => {
     if (podiumTeams.length >= 3) {
       return index === 0 ? 2 : index === 1 ? 1 : 3;

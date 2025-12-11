@@ -2,10 +2,12 @@ import { useGame } from "../../context/GameContext";
 import s from "./CategoryColumn.module.css";
 import QuestionTile from "./QuestionTile";
 
+// En kolonne på spillepladen - viser kategori-navn og spørgsmål
 const CategoryColumn = ({ category }) => {
+  // Henter liste over besvarede spørgsmål fra context
   const { answeredQuestions } = useGame();
 
-  // Sort questions by value
+  // Sorterer spørgsmål efter pointværdi (lavest først)
   const sortedQuestions = [...category.questions].sort(
     (a, b) => a.value - b.value
   );
