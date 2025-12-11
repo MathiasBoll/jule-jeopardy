@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addTeamsToGame, fetchGames } from "../../api/gameService";
+import { addTeamsToGame, fetchGameById } from "../../api/gameService";
 import { createTeam, deleteTeam, fetchTeams } from "../../api/teamService";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
@@ -15,9 +15,10 @@ import heroImg from "../../assets/img/hero_img.png";
 import BackButton from "../../components/ui/BackButton";
 import "./TeamSetup.css";
 
+const GAME_ID = "693aab5197124700f6901873";
+
 const TeamSetup = () => {
-  const [games, setGames] = useState([]);
-  const [selectedGameId, setSelectedGameId] = useState(null);
+  const [game, setGame] = useState(null);
   const [teamCount, setTeamCount] = useState(2);
   const [teams, setTeams] = useState([
     { name: "Hold 1", icon: "star", color: "yellow" },
@@ -35,18 +36,15 @@ const TeamSetup = () => {
   ];
 
   useEffect(() => {
-    const loadGames = async () => {
+    const loadGame = async () => {
       try {
-        const gamesData = await fetchGames();
-        setGames(gamesData);
-        if (gamesData.length > 0) {
-          setSelectedGameId(gamesData[0]._id);
-        }
+        const gameData = await fetchGameById(GAME_ID);
+        setGame(gameData);
       } catch (error) {
-        console.error("Error loading games:", error);
+        console.error("Error loading game:", error);
       }
     };
-    loadGames();
+    loadGame();
   }, []);
 
   const handleTeamCountChange = (increment) => {
@@ -85,7 +83,7 @@ const TeamSetup = () => {
   };
 
   const handleStartGame = async () => {
-    if (!selectedGameId) return;
+    if (!game) return;
 
     try {
       // Delete old teams from API
@@ -120,18 +118,16 @@ const TeamSetup = () => {
       // Add teams to the game
       console.log("Adding teams to game:", createdTeamIds);
       if (createdTeamIds.length > 0) {
-        await addTeamsToGame(selectedGameId, createdTeamIds);
+        await addTeamsToGame(GAME_ID, createdTeamIds);
       }
-
-      const selectedGame = games.find((g) => g._id === selectedGameId);
 
       // Clear old game data and store fresh teams
       localStorage.removeItem("gameTeams");
       localStorage.removeItem("answeredQuestions");
       sessionStorage.setItem("teams", JSON.stringify(teams));
 
-      navigate(`/game-play?gameId=${selectedGameId}`, {
-        state: { game: selectedGame },
+      navigate(`/game-play?gameId=${GAME_ID}`, {
+        state: { game },
       });
     } catch (error) {
       console.error("Error starting game:", error);
@@ -231,27 +227,15 @@ const TeamSetup = () => {
         </div>
 
         <div className="game-select-section">
-          <h3 className="game-select-label">Vælg spil</h3>
-          <select
-            className="game-select-dropdown"
-            value={selectedGameId || ""}
-            onChange={(e) => setSelectedGameId(e.target.value)}
-          >
-            <option value="" disabled>
-              -- Vælg et spil --
-            </option>
-            {games.map((game) => (
-              <option key={game._id} value={game._id}>
-                {game.name}
-              </option>
-            ))}
-          </select>
+          <h3 className="game-select-label">
+            Spil: {game?.name || "Indlæser..."}
+          </h3>
         </div>
 
         <button
           className="start-game-btn"
           onClick={handleStartGame}
-          disabled={!selectedGameId}
+          disabled={!game}
         >
           ✨ Start Spillet ✨
         </button>
