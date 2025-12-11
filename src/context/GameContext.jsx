@@ -7,11 +7,18 @@ export const GameProvider = ({ children }) => {
   const [currentGame, setCurrentGame] = useState(null);
   const [teams, setTeams] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const [answeredQuestions, setAnsweredQuestions] = useState(() => {
+    const saved = localStorage.getItem("answeredQuestions");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [lastQuestionValue, setLastQuestionValue] = useState(100);
 
   const markQuestionAsAnswered = (questionId) => {
-    setAnsweredQuestions((prev) => [...prev, questionId]);
+    setAnsweredQuestions((prev) => {
+      const updated = [...prev, questionId];
+      localStorage.setItem("answeredQuestions", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const updateTeamScore = (teamId, points) => {

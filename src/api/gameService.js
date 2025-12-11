@@ -1,36 +1,49 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL || "";
+const API_URL = "https://jeopardy-gkiyb.ondigitalocean.app";
 
-const buildUrl = (path) => (API_URL ? `${API_URL}${path}` : path);
-
-const ensureJson = async (res) => {
-  const contentType = res.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) {
-    const text = await res.text();
-    throw new Error(`Expected JSON response but got: ${text.slice(0, 200)}`);
-  }
-};
-
+// Games
 export const fetchGames = async () => {
-  const res = await fetch(buildUrl("/games"), {
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok)
-    throw new Error(`Failed to fetch games: ${res.status} ${res.statusText}`);
-  await ensureJson(res);
-  const data = await res.json();
+  const response = await fetch(`${API_URL}/games`);
+  const data = await response.json();
   return data.data || [];
 };
 
 export const fetchGameById = async (gameId) => {
   if (!gameId) return null;
-  const res = await fetch(buildUrl(`/games/${gameId}`), {
-    headers: { Accept: "application/json" },
-  });
-  if (!res.ok)
-    throw new Error(
-      `Failed to fetch game ${gameId}: ${res.status} ${res.statusText}`
-    );
-  await ensureJson(res);
-  const data = await res.json();
+  const response = await fetch(`${API_URL}/game/${gameId}`);
+  const data = await response.json();
   return data.data || null;
+};
+
+export const createGame = async (gameData) => {
+  const response = await fetch(`${API_URL}/game`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(gameData),
+  });
+  return await response.json();
+};
+
+export const updateGame = async (gameData) => {
+  const response = await fetch(`${API_URL}/game`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(gameData),
+  });
+  return await response.json();
+};
+
+export const deleteGame = async (gameId) => {
+  const response = await fetch(`${API_URL}/game/${gameId}`, {
+    method: "DELETE",
+  });
+  return await response.json();
+};
+
+export const addTeamsToGame = async (gameId, teamIds) => {
+  const response = await fetch(`${API_URL}/game/${gameId}/add-teams`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ teams: teamIds }),
+  });
+  return await response.json();
 };

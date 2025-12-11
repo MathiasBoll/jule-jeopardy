@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchGames } from "../../api/gameService";
+import { addTeamsToGame, fetchGames } from "../../api/gameService";
+import { createTeam, deleteTeam, fetchTeams } from "../../api/teamService";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
@@ -19,8 +20,8 @@ const TeamSetup = () => {
   const [selectedGameId, setSelectedGameId] = useState(null);
   const [teamCount, setTeamCount] = useState(2);
   const [teams, setTeams] = useState([
-    { id: 1, name: "Hold 1", icon: "star", color: "yellow" },
-    { id: 2, name: "Hold 2", icon: "tree", color: "green" },
+    { name: "Hold 1", icon: "star", color: "yellow" },
+    { name: "Hold 2", icon: "tree", color: "green" },
   ]);
   const navigate = useNavigate();
 
@@ -37,7 +38,6 @@ const TeamSetup = () => {
     const loadGames = async () => {
       try {
         const gamesData = await fetchGames();
-        console.log("TeamSetup - Loaded games:", gamesData);
         setGames(gamesData);
         if (gamesData.length > 0) {
           setSelectedGameId(gamesData[0]._id);
@@ -54,11 +54,9 @@ const TeamSetup = () => {
     setTeamCount(newCount);
 
     if (newCount > teams.length) {
-      // Adding teams
       const newTeams = [...teams];
       for (let i = teams.length; i < newCount; i++) {
         newTeams.push({
-          id: i + 1,
           name: `Hold ${i + 1}`,
           icon: iconOptions[i % iconOptions.length].name,
           color: iconOptions[i % iconOptions.length].color,
@@ -66,40 +64,77 @@ const TeamSetup = () => {
       }
       setTeams(newTeams);
     } else if (newCount < teams.length) {
-      // Removing teams
       setTeams(teams.slice(0, newCount));
     }
   };
 
-  const handleTeamNameChange = (teamId, newName) => {
-    setTeams(
-      teams.map((team) =>
-        team.id === teamId ? { ...team, name: newName } : team
-      )
-    );
+  const handleTeamNameChange = (index, newName) => {
+    const updatedTeams = [...teams];
+    updatedTeams[index] = { ...updatedTeams[index], name: newName };
+    setTeams(updatedTeams);
   };
 
-  const handleIconSelect = (teamId, iconName, color) => {
-    setTeams(
-      teams.map((team) =>
-        team.id === teamId ? { ...team, icon: iconName, color: color } : team
-      )
-    );
+  const handleIconSelect = (index, iconName, color) => {
+    const updatedTeams = [...teams];
+    updatedTeams[index] = {
+      ...updatedTeams[index],
+      icon: iconName,
+      color: color,
+    };
+    setTeams(updatedTeams);
   };
 
-  const handleStartGame = () => {
-    if (selectedGameId) {
+  const handleStartGame = async () => {
+    if (!selectedGameId) return;
+
+    try {
+      // Delete old teams from API
+      const existingTeams = await fetchTeams();
+      console.log("Deleting old teams from API:", existingTeams);
+      for (const team of existingTeams) {
+        await deleteTeam(team._id);
+      }
+
+      // Create new teams in API
+      const createdTeamIds = [];
+      const apiImages = [
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team1.png",
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team2.png",
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team3.png",
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team4.png",
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team5.png",
+        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team6.png",
+      ];
+      for (let i = 0; i < teams.length; i++) {
+        const team = teams[i];
+        const result = await createTeam({
+          name: team.name,
+          image: apiImages[i % apiImages.length],
+        });
+        console.log("Created team in API:", result);
+        if (result.data?._id) {
+          createdTeamIds.push(result.data._id);
+        }
+      }
+
+      // Add teams to the game
+      console.log("Adding teams to game:", createdTeamIds);
+      if (createdTeamIds.length > 0) {
+        await addTeamsToGame(selectedGameId, createdTeamIds);
+      }
+
       const selectedGame = games.find((g) => g._id === selectedGameId);
-      console.log("TeamSetup - Starting game:", selectedGame);
-      console.log("TeamSetup - Teams being stored:", teams);
 
       // Clear old game data and store fresh teams
       localStorage.removeItem("gameTeams");
+      localStorage.removeItem("answeredQuestions");
       sessionStorage.setItem("teams", JSON.stringify(teams));
 
       navigate(`/game-play?gameId=${selectedGameId}`, {
         state: { game: selectedGame },
       });
+    } catch (error) {
+      console.error("Error starting game:", error);
     }
   };
 
@@ -147,7 +182,7 @@ const TeamSetup = () => {
 
         <div className="teams-grid">
           {teams.map((team, index) => (
-            <div key={team.id} className="team-card">
+            <div key={index} className="team-card">
               <div className="team-number-badge">{index + 1}</div>
 
               <div className="team-icon-section">
@@ -171,11 +206,7 @@ const TeamSetup = () => {
                       team.icon === iconOption.name ? "selected" : ""
                     } ${iconOption.color}`}
                     onClick={() =>
-                      handleIconSelect(
-                        team.id,
-                        iconOption.name,
-                        iconOption.color
-                      )
+                      handleIconSelect(index, iconOption.name, iconOption.color)
                     }
                   >
                     <img
@@ -192,8 +223,8 @@ const TeamSetup = () => {
                 type="text"
                 className="team-name-input"
                 value={team.name}
-                onChange={(e) => handleTeamNameChange(team.id, e.target.value)}
-                placeholder={`Hold ${team.id}`}
+                onChange={(e) => handleTeamNameChange(index, e.target.value)}
+                placeholder={`Hold ${index + 1}`}
               />
             </div>
           ))}
