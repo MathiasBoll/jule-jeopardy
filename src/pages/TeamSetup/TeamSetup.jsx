@@ -302,7 +302,7 @@ const TeamSetup = () => {
                 className="team-name-input"
                 value={team.name}
                 onChange={(e) => handleTeamNameChange(index, e.target.value)}
-                placeholder="Skriv team navn"
+                placeholder="Skriv holdnavn"
               />
             </div>
           ))}
