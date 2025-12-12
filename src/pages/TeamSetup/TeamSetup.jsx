@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addTeamsToGame, fetchGameById } from "../../api/gameService";
-import { createTeam, deleteTeam, fetchTeams } from "../../api/teamService";
+import { createTeam, deleteTeam, fetchTeamImages } from "../../api/teamService";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
@@ -99,34 +99,53 @@ const TeamSetup = () => {
     if (!game) return;
 
     try {
-      // Slet gamle hold fra API'en
-      const existingTeams = await fetchTeams();
-      console.log("Deleting old teams from API:", existingTeams);
-      for (const team of existingTeams) {
-        await deleteTeam(team._id);
+      // Slet kun vores egne hold fra API'en (gemt i localStorage)
+      const ourTeamIds = JSON.parse(localStorage.getItem("ourTeamIds") || "[]");
+      console.log("Deleting our old teams from API:", ourTeamIds);
+      for (const teamId of ourTeamIds) {
+        try {
+          await deleteTeam(teamId);
+        } catch (err) {
+          console.log("Could not delete team:", teamId, err);
+        }
+      }
+
+      // Hent gyldige billede-URLs fra API'en
+      let apiImages = [];
+      try {
+        apiImages = await fetchTeamImages();
+        console.log("Available team images:", apiImages);
+      } catch {
+        console.log("Could not fetch team images, using defaults");
       }
 
       // Opret nye hold i API'en
       const createdTeamIds = [];
-      const apiImages = [
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team1.png",
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team2.png",
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team3.png",
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team4.png",
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team5.png",
-        "https://jeopardy-gkiyb.ondigitalocean.app/teams/team6.png",
-      ];
+      const teamsWithApiIds = [];
       for (let i = 0; i < teams.length; i++) {
         const team = teams[i];
+        const imageUrl = apiImages[i % Math.max(apiImages.length, 1)] || "";
+        // Brug default navn hvis feltet er tomt
+        const teamName = team.name?.trim() || `Hold ${i + 1}`;
         const result = await createTeam({
-          name: team.name,
-          image: apiImages[i % apiImages.length],
+          name: teamName,
+          image: imageUrl,
         });
         console.log("Created team in API:", result);
         if (result.data?._id) {
           createdTeamIds.push(result.data._id);
+          // Gem API-id sammen med holddata så vi kan synce scores
+          teamsWithApiIds.push({
+            ...team,
+            id: i + 1,
+            apiId: result.data._id,
+            score: 0,
+          });
         }
       }
+
+      // Gem vores hold-IDs så vi kun sletter dem næste gang
+      localStorage.setItem("ourTeamIds", JSON.stringify(createdTeamIds));
 
       // Tilføj holdene til spillet
       console.log("Adding teams to game:", createdTeamIds);
@@ -134,10 +153,10 @@ const TeamSetup = () => {
         await addTeamsToGame(GAME_ID, createdTeamIds);
       }
 
-      // Ryd gamle spildata og gem de nye hold
+      // Ryd gamle spildata og gem de nye hold med API-ids
       localStorage.removeItem("gameTeams");
       localStorage.removeItem("answeredQuestions");
-      sessionStorage.setItem("teams", JSON.stringify(teams));
+      sessionStorage.setItem("teams", JSON.stringify(teamsWithApiIds));
 
       // Naviger til spilsiden
       navigate(`/game-play?gameId=${GAME_ID}`, {
