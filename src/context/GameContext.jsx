@@ -38,9 +38,9 @@ export const GameProvider = ({ children }) => {
           const newScore = (team.score || 0) + points;
           // Send score til API hvis holdet har et API-id
           if (team.apiId) {
-            updateTeamScoreAPI(team.apiId, newScore).catch((err) =>
-              console.log("Could not sync score to API:", err)
-            );
+            updateTeamScoreAPI(team.apiId, newScore).catch(() => {
+              // Score sync failed silently
+            });
           }
           return { ...team, score: newScore };
         }

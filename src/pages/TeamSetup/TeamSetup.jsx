@@ -101,12 +101,11 @@ const TeamSetup = () => {
     try {
       // Slet kun vores egne hold fra API'en (gemt i localStorage)
       const ourTeamIds = JSON.parse(localStorage.getItem("ourTeamIds") || "[]");
-      console.log("Deleting our old teams from API:", ourTeamIds);
       for (const teamId of ourTeamIds) {
         try {
           await deleteTeam(teamId);
-        } catch (err) {
-          console.log("Could not delete team:", teamId, err);
+        } catch {
+          // Team may already be deleted
         }
       }
 
@@ -114,9 +113,8 @@ const TeamSetup = () => {
       let apiImages = [];
       try {
         apiImages = await fetchTeamImages();
-        console.log("Available team images:", apiImages);
       } catch {
-        console.log("Could not fetch team images, using defaults");
+        // Using default images
       }
 
       // Opret nye hold i API'en
@@ -131,7 +129,6 @@ const TeamSetup = () => {
           name: teamName,
           image: imageUrl,
         });
-        console.log("Created team in API:", result);
         if (result.data?._id) {
           createdTeamIds.push(result.data._id);
           // Gem API-id sammen med holddata så vi kan synce scores
@@ -147,10 +144,13 @@ const TeamSetup = () => {
       // Gem vores hold-IDs så vi kun sletter dem næste gang
       localStorage.setItem("ourTeamIds", JSON.stringify(createdTeamIds));
 
-      // Tilføj holdene til spillet
-      console.log("Adding teams to game:", createdTeamIds);
+      // Tilføj holdene til spillet (optional - game works without this)
       if (createdTeamIds.length > 0) {
-        await addTeamsToGame(GAME_ID, createdTeamIds);
+        try {
+          await addTeamsToGame(GAME_ID, createdTeamIds);
+        } catch {
+          // API endpoint may not be configured - game works without it
+        }
       }
 
       // Ryd gamle spildata og gem de nye hold med API-ids

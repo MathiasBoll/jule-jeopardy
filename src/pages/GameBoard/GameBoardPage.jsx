@@ -31,18 +31,11 @@ const GameBoardContent = () => {
           return;
         }
 
-        console.log("GameBoardPage - Game ID:", gameId);
-        console.log("GameBoardPage - Game from state:", gameFromState);
-
         // Brug spil fra state hvis tilgængeligt, ellers hent fra API
         let game = gameFromState;
 
         if (!game) {
-          console.log("GameBoardPage - No game in state, fetching from API...");
           game = await fetchGameById(gameId);
-          console.log("GameBoardPage - Fetched game:", game);
-        } else {
-          console.log("GameBoardPage - Using game from navigation state");
         }
 
         // Indlæs hold - prioriter sessionStorage (friske hold fra TeamSetup)
@@ -58,16 +51,13 @@ const GameBoardContent = () => {
           }));
           localStorage.setItem("gameTeams", JSON.stringify(teamsData));
           sessionStorage.removeItem("teams");
-          console.log("GameBoardPage - Fresh teams from TeamSetup:", teamsData);
         } else {
           // Ingen friske hold - tjek localStorage for igangværende spil
           const storedGameTeams = localStorage.getItem("gameTeams");
           if (storedGameTeams) {
             teamsData = JSON.parse(storedGameTeams);
-            console.log("GameBoardPage - Teams from localStorage:", teamsData);
           } else {
             // Ingen hold fundet - brug standard
-            console.log("GameBoardPage - No teams found, using default");
             teamsData = [{ id: 1, name: "Hold 1", score: 0 }];
             localStorage.setItem("gameTeams", JSON.stringify(teamsData));
           }
