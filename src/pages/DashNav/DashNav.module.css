@@ -1,24 +1,32 @@
+.navWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .dashNav {
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-
-  gap: 1rem;
-  padding: 20px 50px;
+  gap: 20px;
+  list-style: none;
 }
 
-nav {
-  width: 250px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  background-color: rgba(0, 0, 0, 0.03);
-}
-
-.dashItems {
+.dashItem a {
+  text-decoration: none;
+  color: #444;
   font-weight: 400;
-  font-size: 18px;
-  color: #333;
+  transition: 0.2s;
+}
+
+.active a {
+  font-weight: 600;
+  color: #000;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  color: #777;
+}
+
+.segment {
+  text-transform: capitalize;
 }

@@ -3,6 +3,7 @@ import DashNav from "../DashNav/DashNav";
 import s from "./GameTable.module.css";
 import GameKategoryTable from "./GameKategoryTable";
 
+
 const GameTable = ({ game }) => {
   return (
     <section className="sectionAdmin">

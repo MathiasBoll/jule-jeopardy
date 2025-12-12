@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GameSelect from "../GameSelect/GameSelect";
 import GameTable from "../GameTable/GameTable";
+import DashNav from "../DashNav/DashNav";
 
 const GamesDashboard = () => {
   const [currentGame, setCurrentGame] = useState(null);
@@ -9,6 +10,7 @@ const GamesDashboard = () => {
   return (
     <section className="sectionAdmin">
       <div className="container">
+        <DashNav />
         {!currentGame ? (
           <GameSelect onSelect={setCurrentGame} />
         ) : (

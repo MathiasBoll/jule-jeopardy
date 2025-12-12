@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const CreateGameForm = () => {
+const CreateGameForm = (gameId) => {
   const [games, setGame] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +19,7 @@ const CreateGameForm = () => {
       }
     };
     fetchGames();
-  }, []);
+  }, [gameId]);
 
   return { games, loading, error };
 };
