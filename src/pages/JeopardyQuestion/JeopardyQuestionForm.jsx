@@ -2,7 +2,7 @@
 // Formular til at oprette/redigere ét Jeopardy-spørgsmål.
 // Indeholder al logik til fetch, validering og UI state.
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; // додаємо useEffect
 
 const POINT_VALUES = [100, 200, 300, 400, 500];
 
@@ -14,36 +14,46 @@ const JeopardyQuestionForm = ({
   questionId = null,
   initialData = null,
   onSuccess,
-  onCancel,
 }) => {
-  // Standardform-data (bruges både til create og edit)
-  const [formData, setFormData] = useState(
-    initialData || {
-      pointValue: "100",
-      question: "",
-      answer: "",
-      notes: "",
-    }
-  );
+  const DEFAULT_FORM = {
+    pointValue: "100",
+    question: "",
+    answer: "",
+    notes: "",
+  };
+
+  const getInitialFormData = () => {
+    if (!initialData) return { ...DEFAULT_FORM };
+
+    return {
+      pointValue: initialData.pointValue || initialData.value || "100",
+      question: initialData.question || "",
+      answer: initialData.answer || "",
+      notes: initialData.notes || "",
+    };
+  };
+
+  const [formData, setFormData] = useState(getInitialFormData);
 
   useEffect(() => {
-    console.log("initialData", initialData);
     if (initialData) {
-      setFormData({
-        pointValue: initialData.pointValue || initialData.value || "100",
-        question: initialData.question || "",
-        answer: initialData.answer || "",
-        notes: initialData.notes || "",
-      });
+      setFormData(getInitialFormData());
     }
   }, [initialData]);
+
+  // useEffect(() => {
+  //   console.log("initialData", initialData);
+  //   if (initialData) {
+  //     setFormData({});
+  //   }
+  // }, [initialData]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
   // Hvis der er et questionId, er vi i "rediger"-mode
-  const isEditMode = Boolean(questionId);
+  const isEditMode = questionId && questionId !== "new";
 
   // Opdater lokal state når bruger skriver i felterne
   const handleChange = (e) => {
@@ -116,19 +126,8 @@ const JeopardyQuestionForm = ({
 
   // Annuller klik – enten kald onCancel eller reset form
   const handleCancelClick = () => {
-    if (onCancel) {
-      onCancel();
-    } else {
-      // Fallback: reset form til initialData / default
-      setFormData(
-        initialData || {
-          pointValue: "100",
-          question: "",
-          answer: "",
-          notes: "",
-        }
-      );
-    }
+    console.log("Cancel clicked");
+    setFormData({ pointValue: "100", question: "", answer: "", notes: "" });
   };
 
   // Brug fallback-tekster hvis gameName/categoryName ikke er givet

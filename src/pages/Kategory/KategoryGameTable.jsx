@@ -52,33 +52,8 @@ const KategoryGameTable = () => {
                 <CategoryLink
                   label="Rediger"
                   to={`/dashboard/games/${gameId}/${categoryId}/question/${q._id}/edit`}
-                  // () => setEditingQuestion(true)
-                  // setEditingQuestion({
-                  //   questionId: q._id,
-                  //   initialData: {
-                  //     pointValue: q.value,
-                  //     question: q.question,
-                  //     answer: q.answer,
-                  //     notes: q.notes || "",
-                  //   },
-                  // });
                 ></CategoryLink>
               </CategoryTableRow>
-              {/* {editingQuestionId === q._id && (
-                <tr>
-                  <td colSpan="4">
-                    <JeopardyQuestionForm
-                      questionId={q._id}
-                      initialData={{
-                        pointValue: q.value,
-                        question: q.question,
-                        answer: q.answer,
-                        notes: q.notes || "",
-                      }}
-                    />
-                  </td>
-                </tr>
-              )} */}
             </tr>
           ))
         )}
