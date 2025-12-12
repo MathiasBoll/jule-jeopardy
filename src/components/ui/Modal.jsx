@@ -2,19 +2,24 @@ import { useState } from "react";
 import { useGame } from "../../context/GameContext";
 import s from "./Modal.module.css";
 
+// Modal der viser spørgsmål og svar når et spørgsmål vælges
 const Modal = () => {
   const { selectedQuestion, setSelectedQuestion, markQuestionAsAnswered } =
     useGame();
+  // State til at vise/skjule svaret
   const [showAnswer, setShowAnswer] = useState(false);
 
+  // Viser ikke modal hvis intet spørgsmål er valgt
   if (!selectedQuestion) return null;
 
+  // Lukker modal og markerer spørgsmålet som besvaret
   const handleClose = () => {
     markQuestionAsAnswered(selectedQuestion._id);
     setSelectedQuestion(null);
     setShowAnswer(false);
   };
 
+  // Viser svaret
   const handleShowAnswer = () => {
     setShowAnswer(true);
   };
