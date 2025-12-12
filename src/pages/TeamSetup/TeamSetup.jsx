@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 // API-funktioner
 import { addTeamsToGame, fetchGameById } from "../../api/gameService";
 import { createTeam, deleteTeam, fetchTeamImages } from "../../api/teamService";
-
-// Assets / ikoner
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
@@ -145,39 +143,39 @@ const TeamSetup = () => {
     setFormError(null);
 
     try {
-      // Slet tidligere hold (kun dem vi selv har oprettet)
+      // Slet kun vores egne hold fra API'en (gemt i localStorage)
       const ourTeamIds = JSON.parse(localStorage.getItem("ourTeamIds") || "[]");
       for (const teamId of ourTeamIds) {
         try {
           await deleteTeam(teamId);
         } catch {
-          console.log("Could not delete team:", teamId);
+          // Team may already be deleted
         }
       }
 
-      // Hent billeder fra API
+      // Hent gyldige billede-URLs fra API'en
       let apiImages = [];
       try {
         apiImages = await fetchTeamImages();
       } catch {
-        console.log("Could not fetch team images");
+        // Using default images
       }
 
       // Opret nye hold i API
       const createdTeamIds = [];
       const teamsWithApiIds = [];
-
       for (let i = 0; i < teams.length; i++) {
         const team = teams[i];
         const imageUrl = apiImages[i % Math.max(apiImages.length, 1)] || "";
-
+        // Brug default navn hvis feltet er tomt
+        const teamName = team.name?.trim() || `Hold ${i + 1}`;
         const result = await createTeam({
-          name: team.name.trim(),
+          name: teamName,
           image: imageUrl,
         });
-
         if (result.data?._id) {
           createdTeamIds.push(result.data._id);
+          // Gem API-id sammen med holddata så vi kan synce scores
           teamsWithApiIds.push({
             ...team,
             id: i + 1,
@@ -187,15 +185,21 @@ const TeamSetup = () => {
         }
       }
 
-      // Gem team IDs
+      // Gem vores hold-IDs så vi kun sletter dem næste gang
       localStorage.setItem("ourTeamIds", JSON.stringify(createdTeamIds));
 
-      // Tilføj hold til spil
+      // Tilføj holdene til spillet (optional - game works without this)
       if (createdTeamIds.length > 0) {
-        await addTeamsToGame(GAME_ID, createdTeamIds);
+        try {
+          await addTeamsToGame(GAME_ID, createdTeamIds);
+        } catch {
+          // API endpoint may not be configured - game works without it
+        }
       }
 
-      // Gem hold i sessionStorage
+      // Ryd gamle spildata og gem de nye hold med API-ids
+      localStorage.removeItem("gameTeams");
+      localStorage.removeItem("answeredQuestions");
       sessionStorage.setItem("teams", JSON.stringify(teamsWithApiIds));
 
       // Gå til spillet
@@ -297,9 +301,7 @@ const TeamSetup = () => {
                 type="text"
                 className="team-name-input"
                 value={team.name}
-                onChange={(e) =>
-                  handleTeamNameChange(index, e.target.value)
-                }
+                onChange={(e) => handleTeamNameChange(index, e.target.value)}
                 placeholder="Skriv holdnavn"
               />
             </div>
