@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchGameById } from "../../api/gameService";
 
 const FetchGameById = (gameId) => {
   const [game, setGame] = useState(null);
@@ -8,22 +9,19 @@ const FetchGameById = (gameId) => {
   useEffect(() => {
     if (!gameId) return;
 
-    const fetchGame = async () => {
+    const loadGame = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/games`);
-        if (!res.ok) throw new Error("Failed to fetch games");
-        const data = await res.json();
-        const selectGame = data.data.find((g) => g._id === gameId || null);
-
-        setGame(selectGame);
+        const data = await fetchGameById(gameId);
+        setGame(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchGame();
+    loadGame();
   }, [gameId]);
+
   return { game, loading, error };
 };
 

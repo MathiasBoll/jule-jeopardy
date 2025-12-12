@@ -2,7 +2,8 @@
 // Formular til at oprette/redigere ét Jeopardy-spørgsmål.
 // Indeholder al logik til fetch, validering og UI state.
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { fetchGameById, updateGame } from "../../api/gameService";
 
 const POINT_VALUES = [100, 200, 300, 400, 500];
 
@@ -14,36 +15,46 @@ const JeopardyQuestionForm = ({
   questionId = null,
   initialData = null,
   onSuccess,
-  onCancel,
 }) => {
-  // Standardform-data (bruges både til create og edit)
-  const [formData, setFormData] = useState(
-    initialData || {
-      pointValue: "100",
-      question: "",
-      answer: "",
-      notes: "",
-    }
-  );
+  const DEFAULT_FORM = {
+    pointValue: "100",
+    question: "",
+    answer: "",
+    notes: "",
+  };
+
+  const getInitialFormData = () => {
+    if (!initialData) return { ...DEFAULT_FORM };
+
+    return {
+      pointValue: initialData.pointValue || initialData.value || "100",
+      question: initialData.question || "",
+      answer: initialData.answer || "",
+      notes: initialData.notes || "",
+    };
+  };
+
+  const [formData, setFormData] = useState(getInitialFormData);
 
   useEffect(() => {
-    console.log("initialData", initialData);
     if (initialData) {
-      setFormData({
-        pointValue: initialData.pointValue || initialData.value || "100",
-        question: initialData.question || "",
-        answer: initialData.answer || "",
-        notes: initialData.notes || "",
-      });
+      setFormData(getInitialFormData());
     }
   }, [initialData]);
+
+  // useEffect(() => {
+  //   console.log("initialData", initialData);
+  //   if (initialData) {
+  //     setFormData({});
+  //   }
+  // }, [initialData]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
 
   // Hvis der er et questionId, er vi i "rediger"-mode
-  const isEditMode = Boolean(questionId);
+  const isEditMode = questionId && questionId !== "new";
 
   // Opdater lokal state når bruger skriver i felterne
   const handleChange = (e) => {
@@ -54,7 +65,7 @@ const JeopardyQuestionForm = ({
     }));
   };
 
-  // Submit til API (create eller update afhængigt af isEditMode)
+  // Submit til API - opdaterer spørgsmål via Game Update endpoint
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -62,32 +73,54 @@ const JeopardyQuestionForm = ({
     setSuccessMessage(null);
 
     try {
-      const payload = {
-        ...formData,
-        gameId,
-        categoryId,
-      };
-
-      const url = isEditMode
-        ? `${import.meta.env.VITE_API_BASE_URL}/questions/${questionId}`
-        : `${import.meta.env.VITE_API_BASE_URL}/questions`;
-
-      const method = isEditMode ? "PUT" : "POST";
-
-      const res = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Kunne ikke gemme spørgsmålet");
+      // Hent det fulde spil fra API
+      const game = await fetchGameById(gameId);
+      if (!game) {
+        throw new Error("Kunne ikke hente spillet");
       }
 
-      const savedQuestion = await res.json();
+      // Find kategorien og opdater spørgsmålet
+      const updatedCategories = game.categories.map((category) => {
+        if (category._id === categoryId) {
+          if (isEditMode) {
+            // Opdater eksisterende spørgsmål
+            const updatedQuestions = category.questions.map((q) => {
+              if (q._id === questionId) {
+                return {
+                  ...q,
+                  value: parseInt(formData.pointValue),
+                  question: formData.question,
+                  answer: formData.answer,
+                  notes: formData.notes,
+                };
+              }
+              return q;
+            });
+            return { ...category, questions: updatedQuestions };
+          } else {
+            // Tilføj nyt spørgsmål
+            const newQuestion = {
+              value: parseInt(formData.pointValue),
+              question: formData.question,
+              answer: formData.answer,
+              notes: formData.notes,
+            };
+            return {
+              ...category,
+              questions: [...category.questions, newQuestion],
+            };
+          }
+        }
+        return category;
+      });
+
+      // Opdater spillet via Game Update endpoint
+      const updatedGame = { ...game, categories: updatedCategories };
+      const result = await updateGame(updatedGame);
+
+      if (!result.data) {
+        throw new Error("Kunne ikke gemme spørgsmålet");
+      }
 
       setSuccessMessage(
         isEditMode ? "Spørgsmål opdateret!" : "Spørgsmål gemt!"
@@ -105,7 +138,7 @@ const JeopardyQuestionForm = ({
 
       // Giv besked til parent (fx til at refetche liste)
       if (onSuccess) {
-        onSuccess(savedQuestion);
+        onSuccess(result.data);
       }
     } catch (err) {
       setError(err.message);
@@ -116,19 +149,8 @@ const JeopardyQuestionForm = ({
 
   // Annuller klik – enten kald onCancel eller reset form
   const handleCancelClick = () => {
-    if (onCancel) {
-      onCancel();
-    } else {
-      // Fallback: reset form til initialData / default
-      setFormData(
-        initialData || {
-          pointValue: "100",
-          question: "",
-          answer: "",
-          notes: "",
-        }
-      );
-    }
+    console.log("Cancel clicked");
+    setFormData({ pointValue: "100", question: "", answer: "", notes: "" });
   };
 
   // Brug fallback-tekster hvis gameName/categoryName ikke er givet

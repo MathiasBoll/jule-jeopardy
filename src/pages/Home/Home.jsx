@@ -2,16 +2,27 @@ import { useNavigate } from "react-router-dom";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
+import settingsIcon from "../../assets/icon/settings.svg";
 import heroElement1 from "../../assets/img/hero-element_1.png";
 import heroElement2 from "../../assets/img/hero-element_2.png";
 import heroImg from "../../assets/img/hero_img.png";
 import "./Home.css";
 
+// Forsiden af Jule Jeopardy - viser titel og knap til at starte spillet
 const Home = () => {
+  // Hook til navigation mellem sider
   const navigate = useNavigate();
   return (
     <div className="home-container">
       <img src={heroImg} alt="Background decoration" className="hero-overlay" />
+
+      <button
+        className="settings-button"
+        onClick={() => navigate("/games-dashboard")}
+        aria-label="Admin Dashboard"
+      >
+        <img src={settingsIcon} alt="Settings" />
+      </button>
 
       {/* Top banner med hero-element 1 */}
       <div className="banner top-banner">

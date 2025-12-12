@@ -3,15 +3,12 @@ import DashNav from "../DashNav/DashNav";
 import s from "./GameTable.module.css";
 import GameKategoryTable from "./GameKategoryTable";
 
-const GameTable = () => {
+const GameTable = ({ game }) => {
   return (
-    <section className={`sectionAdmin`}>
-      <div className={`admin-container`}>
-        <aside className={`sidebar`}>
-          <DashNav />
-        </aside>
+    <section className="sectionAdmin">
+      <div className="container">
         <div className={s.tableBox}>
-          <GameKategoryTable />
+          <GameKategoryTable game={game} />
         </div>
       </div>
     </section>
