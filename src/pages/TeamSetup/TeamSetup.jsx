@@ -27,7 +27,7 @@ import BackButton from "../../components/ui/BackButton";
 import "./TeamSetup.css";
 
 // ID på spillet (hardcoded fra API)
-const GAME_ID = "693aab5197124700f6901873";
+const GAME_ID = "693bd83b4d6dcc5e58fa2aba";
 
 const TeamSetup = () => {
   // -----------------------------
