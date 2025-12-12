@@ -9,6 +9,7 @@ import s from "./GameTable.module.css";
 // Komponent der viser kategorierne for det valgte spil
 import GameKategoryTable from "./GameKategoryTable";
 
+
 // GameTable er et layout-wrapper-component for admin-visningen af ét spil
 const GameTable = ({ game }) => {
   return (

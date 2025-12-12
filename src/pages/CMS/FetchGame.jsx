@@ -6,6 +6,8 @@
 import { useEffect, useState } from "react";
 import { fetchGames } from "../../api/gameService";
 
+const CreateGameForm = (gameId) => {
+  const [games, setGame] = useState([]);
 // FetchGame
 // Denne hook:
 // - henter alle games fra API'et når komponenten mountes
@@ -38,6 +40,8 @@ const FetchGame = () => {
         setLoading(false);
       }
     };
+    fetchGames();
+  }, [gameId]);
 
     // Kald funktionen når komponenten mountes
     loadGames();

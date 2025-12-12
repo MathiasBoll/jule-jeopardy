@@ -6,11 +6,19 @@ import React, { useState } from "react";
 import FetchGame from "../CMS/FetchGame";
 import s from "./GameSelect.module.css";
 
+const TARGET_GAME_ID = "693bd83b4d6dcc5e58fa2aba";
+
 // Props:
 // - onSelect: callback-funktion der modtager det valgte spil-objekt
 const GameSelect = ({ onSelect }) => {
   // Henter spil, loading-status og fejl fra custom hook
   const { games, loading, error } = FetchGame();
+
+  const filteredGames = games.filter((g) => g._id === TARGET_GAME_ID);
+
+  const [selectedGameId, setSelectedGameId] = useState(TARGET_GAME_ID);
+
+  const selectedGame = filteredGames.find((g) => g._id === selectedGameId);
 
   // State til ID på det valgte spil fra dropdown
   const [selectedGameId, setSelectedGameId] = useState("");
@@ -46,6 +54,7 @@ const GameSelect = ({ onSelect }) => {
           onChange={(e) => setSelectedGameId(e.target.value)}
         >
           <option value="">-- Select a Game --</option>
+          {filteredGames.map((game) => (
 
           {/* Liste af spil hentet fra API */}
           {games.map((game) => (

@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 import GameSelect from "../GameSelect/GameSelect";
 import GameTable from "../GameTable/GameTable";
+import DashNav from "../DashNav/DashNav";
 
 // GamesDashboard
 // Ansvar:
@@ -23,6 +24,7 @@ const GamesDashboard = () => {
   return (
     <section className="sectionAdmin">
       <div className="container">
+        <DashNav />
         {/* Hvis der endnu ikke er valgt et spil */}
         {!currentGame ? (
           // Vis komponent til at vælge et spil

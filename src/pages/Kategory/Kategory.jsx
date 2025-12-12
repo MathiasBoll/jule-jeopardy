@@ -2,6 +2,7 @@ import React from "react";
 
 // Komponent der viser tabellen med spørgsmål for én kategori
 import KategoryGameTable from "./KategoryGameTable";
+import DashNav from "../DashNav/DashNav";
 
 // CSS-module til styling af kategori-siden
 import s from "./Kategory.module.css";
@@ -25,6 +26,7 @@ const Kategory = () => {
     // Genbrugt admin-layout (samme som andre CMS-sider)
     <section className="sectionAdmin">
       <div className="container">
+        <DashNav />
         {/* Styling-wrapper til kategori-indhold */}
         <div className={s.boxKategory}>
           {/* Viser spørgsmålene for valgt kategori */}
