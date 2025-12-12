@@ -26,8 +26,8 @@ const TeamSetup = () => {
   const [teamCount, setTeamCount] = useState(2);
   // State til holdenes data (navn, ikon, farve)
   const [teams, setTeams] = useState([
-    { name: "Hold 1", icon: "star", color: "yellow" },
-    { name: "Hold 2", icon: "tree", color: "green" },
+    { name: "", icon: "star", color: "yellow" },
+    { name: "", icon: "tree", color: "green" },
   ]);
   const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ const TeamSetup = () => {
       const newTeams = [...teams];
       for (let i = teams.length; i < newCount; i++) {
         newTeams.push({
-          name: `Hold ${i + 1}`,
+          name: "",
           icon: iconOptions[i % iconOptions.length].name,
           color: iconOptions[i % iconOptions.length].color,
         });
@@ -253,7 +253,7 @@ const TeamSetup = () => {
                 className="team-name-input"
                 value={team.name}
                 onChange={(e) => handleTeamNameChange(index, e.target.value)}
-                placeholder={`Hold ${index + 1}`}
+                placeholder="Skriv team navn"
               />
             </div>
           ))}
