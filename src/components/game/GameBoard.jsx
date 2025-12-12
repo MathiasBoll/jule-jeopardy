@@ -7,8 +7,6 @@ const GameBoard = () => {
   // Henter det aktuelle spil fra context
   const { currentGame } = useGame();
 
-  console.log("GameBoard currentGame:", currentGame);
-
   // Viser besked hvis intet spil er indlæst
   if (!currentGame) {
     return <div className={s.container}>No game loaded</div>;

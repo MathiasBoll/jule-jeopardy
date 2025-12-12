@@ -46,10 +46,11 @@ export const deleteGame = async (gameId) => {
 
 // Tilføjer hold til et spil
 export const addTeamsToGame = async (gameId, teamIds) => {
+  
   const response = await fetch(`${API_URL}/game/${gameId}/add-teams`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ teams: teamIds }),
+    body: JSON.stringify({ teamIds: teamIds }),
   });
   return await response.json();
 };
