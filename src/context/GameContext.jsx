@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
+import { updateTeamScore as updateTeamScoreAPI } from "../api/teamService";
 
 // Opretter context til at dele spildata på tværs af komponenter
 const GameContext = createContext();
@@ -29,14 +30,22 @@ export const GameProvider = ({ children }) => {
     });
   };
 
-  // Opdaterer et holds score og gemmer i localStorage
+  // Opdaterer et holds score og gemmer i localStorage + sender til API
   const updateTeamScore = (teamId, points) => {
     setTeams((prevTeams) => {
-      const updatedTeams = prevTeams.map((team) =>
-        team.id === teamId
-          ? { ...team, score: (team.score || 0) + points }
-          : team
-      );
+      const updatedTeams = prevTeams.map((team) => {
+        if (team.id === teamId) {
+          const newScore = (team.score || 0) + points;
+          // Send score til API hvis holdet har et API-id
+          if (team.apiId) {
+            updateTeamScoreAPI(team.apiId, newScore).catch((err) =>
+              console.log("Could not sync score to API:", err)
+            );
+          }
+          return { ...team, score: newScore };
+        }
+        return team;
+      });
       localStorage.setItem("gameTeams", JSON.stringify(updatedTeams));
       return updatedTeams;
     });
