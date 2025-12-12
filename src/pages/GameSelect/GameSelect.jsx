@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FetchGame from "../CMS/FetchGame";
 import s from "./GameSelect.module.css";
 
-const GameSelect = ({ onSelect}) => {
+const GameSelect = ({ onSelect }) => {
   const { games, loading, error } = FetchGame();
   const [selectedGameId, setSelectedGameId] = useState("");
 
@@ -18,22 +18,25 @@ const GameSelect = ({ onSelect}) => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className={s.btnContainer}>
-      <select
-        className={s.select}
-        value={selectedGameId}
-        onChange={(e) => setSelectedGameId(e.target.value)}
-      >
-        <option value="">-- Select a Game --</option>
-        {games.map((game) => (
-          <option key={game._id} value={game._id}>
-            {game.name}
-          </option>
-        ))}
-      </select>
-      <button className={s.btn} onClick={handleNext} disabled={!selectedGame}>
-        View
-      </button>
+    <div className={ s.dashContainer}>
+      <h2 className={s.adminTitle}>Games Dash Board</h2>
+      <div className={s.btnContainer}>
+        <select
+          className={s.select}
+          value={selectedGameId}
+          onChange={(e) => setSelectedGameId(e.target.value)}
+        >
+          <option value="">-- Select a Game --</option>
+          {games.map((game) => (
+            <option key={game._id} value={game._id}>
+              {game.name}
+            </option>
+          ))}
+        </select>
+        <button className={s.btn} onClick={handleNext} disabled={!selectedGame}>
+          View
+        </button>
+      </div>
     </div>
   );
 };
