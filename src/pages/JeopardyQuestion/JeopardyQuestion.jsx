@@ -7,6 +7,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import JeopardyQuestionForm from "./JeopardyQuestionForm";
 import useFetchQuestion from "./useFetchQuestion";
+import DashNav from "../DashNav/DashNav";
 
 // ✅ CSS’en ligger i samme mappe som denne fil
 import "./JeopardyQuestion.css";
@@ -26,6 +27,7 @@ const JeopardyQuestion = () => {
     <section className="sectionAdmin">
       {/* Højre område hvor selve panelet ligger */}
       <main className="jq-admin-main">
+        <DashNav />
         {/* Formularen står for indholdet af panelet */}
         <JeopardyQuestionForm
           gameId={gameId}
