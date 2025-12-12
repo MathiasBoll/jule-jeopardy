@@ -1,106 +1,228 @@
+// src/pages/TeamSetup/TeamSetup.jsx
+// Side hvor man opsætter hold før Jeopardy-spillet starter
+// Brugeren vælger antal hold, holdnavne og ikoner
+// Spillet må IKKE starte, hvis et hold mangler navn
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchGames } from "../../api/gameService";
+
+// API-funktioner
+import { addTeamsToGame, fetchGameById } from "../../api/gameService";
+import { createTeam, deleteTeam, fetchTeamImages } from "../../api/teamService";
 import bauble1 from "../../assets/icon/bauble_1.svg";
 import bauble2 from "../../assets/icon/bauble_2.svg";
 import bauble3 from "../../assets/icon/bauble_3.svg";
+import bellIcon from "../../assets/icon/bell.svg";
 import giftIcon from "../../assets/icon/gift.svg";
+import ornamentIcon from "../../assets/icon/ornament.svg";
 import snowflakeIcon from "../../assets/icon/snowflake.svg";
 import starIcon from "../../assets/icon/star_yellow.svg";
 import treeIcon from "../../assets/icon/tree.svg";
 import heroImg from "../../assets/img/hero_img.png";
+
+// UI komponenter
 import BackButton from "../../components/ui/BackButton";
+
+// Styling
 import "./TeamSetup.css";
 
+// ID på spillet (hardcoded fra API)
+const GAME_ID = "693aab5197124700f6901873";
+
 const TeamSetup = () => {
-  const [games, setGames] = useState([]);
-  const [selectedGameId, setSelectedGameId] = useState(null);
+  // -----------------------------
+  // STATE
+  // -----------------------------
+
+  // Spildata fra API
+  const [game, setGame] = useState(null);
+
+  // Antal hold (1–6)
   const [teamCount, setTeamCount] = useState(2);
+
+  // Holdenes data
   const [teams, setTeams] = useState([
-    { id: 1, name: "Hold 1", icon: "star", color: "yellow" },
-    { id: 2, name: "Hold 2", icon: "tree", color: "green" },
+    { name: "", icon: "star", color: "yellow" },
+    { name: "", icon: "tree", color: "green" },
   ]);
+
+  // Fejlbesked hvis noget er galt
+  const [formError, setFormError] = useState(null);
+
   const navigate = useNavigate();
 
+  // -----------------------------
+  // IKONER TIL HOLD
+  // -----------------------------
   const iconOptions = [
     { name: "star", icon: starIcon, color: "yellow" },
     { name: "tree", icon: treeIcon, color: "green" },
     { name: "snowflake", icon: snowflakeIcon, color: "white" },
     { name: "gift", icon: giftIcon, color: "red" },
+    { name: "bell", icon: bellIcon, color: "yellow" },
+    { name: "ornament", icon: ornamentIcon, color: "red" },
   ];
 
+  // -----------------------------
+  // HENT SPIL FRA API VED LOAD
+  // -----------------------------
   useEffect(() => {
-    const loadGames = async () => {
+    const loadGame = async () => {
       try {
-        const gamesData = await fetchGames();
-        console.log("TeamSetup - Loaded games:", gamesData);
-        setGames(gamesData);
-        if (gamesData.length > 0) {
-          setSelectedGameId(gamesData[0]._id);
-        }
+        const gameData = await fetchGameById(GAME_ID);
+        setGame(gameData);
       } catch (error) {
-        console.error("Error loading games:", error);
+        console.error("Error loading game:", error);
       }
     };
-    loadGames();
+
+    loadGame();
   }, []);
 
+  // -----------------------------
+  // ÆNDR ANTAL HOLD
+  // -----------------------------
   const handleTeamCountChange = (increment) => {
     const newCount = Math.max(1, Math.min(6, teamCount + increment));
     setTeamCount(newCount);
 
-    const newTeams = [];
-    for (let i = 0; i < newCount; i++) {
-      if (teams[i]) {
-        newTeams.push(teams[i]);
-      } else {
+    // Hvis vi skal have flere hold
+    if (newCount > teams.length) {
+      const newTeams = [...teams];
+      for (let i = teams.length; i < newCount; i++) {
         newTeams.push({
-          id: i + 1,
-          name: `Hold ${i + 1}`,
+          name: "",
           icon: iconOptions[i % iconOptions.length].name,
           color: iconOptions[i % iconOptions.length].color,
         });
       }
+      setTeams(newTeams);
     }
-    setTeams(newTeams);
+
+    // Hvis vi skal have færre hold
+    if (newCount < teams.length) {
+      setTeams(teams.slice(0, newCount));
+    }
   };
 
-  const handleTeamNameChange = (teamId, newName) => {
-    setTeams(
-      teams.map((team) =>
-        team.id === teamId ? { ...team, name: newName } : team
-      )
+  // -----------------------------
+  // OPDATER HOLDNAVN
+  // -----------------------------
+  const handleTeamNameChange = (index, newName) => {
+    const updatedTeams = [...teams];
+    updatedTeams[index] = { ...updatedTeams[index], name: newName };
+    setTeams(updatedTeams);
+  };
+
+  // -----------------------------
+  // VÆLG IKON
+  // -----------------------------
+  const handleIconSelect = (index, iconName, color) => {
+    const updatedTeams = [...teams];
+    updatedTeams[index] = { ...updatedTeams[index], icon: iconName, color };
+    setTeams(updatedTeams);
+  };
+
+  // -----------------------------
+  // START SPIL
+  // -----------------------------
+  const handleStartGame = async () => {
+    if (!game) return;
+
+    // 🔴 VALIDATION: tjek om alle hold har navne
+    const hasEmptyTeamNames = teams.some(
+      (team) => !team.name || team.name.trim() === ""
     );
-  };
 
-  const handleIconSelect = (teamId, iconName, color) => {
-    setTeams(
-      teams.map((team) =>
-        team.id === teamId ? { ...team, icon: iconName, color: color } : team
-      )
-    );
-  };
+    if (hasEmptyTeamNames) {
+      setFormError("Alle hold skal have et navn, før spillet kan starte.");
+      return;
+    }
 
-  const handleStartGame = () => {
-    if (selectedGameId) {
-      const selectedGame = games.find((g) => g._id === selectedGameId);
-      console.log("TeamSetup - Starting game:", selectedGame);
-      console.log("TeamSetup - Game has categories?", selectedGame?.categories);
-      // Store team configuration in sessionStorage or pass via state
-      sessionStorage.setItem("teams", JSON.stringify(teams));
-      navigate(`/game-play?gameId=${selectedGameId}`, {
-        state: { game: selectedGame },
+    // Ryd evt. tidligere fejl
+    setFormError(null);
+
+    try {
+      // Slet kun vores egne hold fra API'en (gemt i localStorage)
+      const ourTeamIds = JSON.parse(localStorage.getItem("ourTeamIds") || "[]");
+      for (const teamId of ourTeamIds) {
+        try {
+          await deleteTeam(teamId);
+        } catch {
+          // Team may already be deleted
+        }
+      }
+
+      // Hent gyldige billede-URLs fra API'en
+      let apiImages = [];
+      try {
+        apiImages = await fetchTeamImages();
+      } catch {
+        // Using default images
+      }
+
+      // Opret nye hold i API
+      const createdTeamIds = [];
+      const teamsWithApiIds = [];
+      for (let i = 0; i < teams.length; i++) {
+        const team = teams[i];
+        const imageUrl = apiImages[i % Math.max(apiImages.length, 1)] || "";
+        // Brug default navn hvis feltet er tomt
+        const teamName = team.name?.trim() || `Hold ${i + 1}`;
+        const result = await createTeam({
+          name: teamName,
+          image: imageUrl,
+        });
+        if (result.data?._id) {
+          createdTeamIds.push(result.data._id);
+          // Gem API-id sammen med holddata så vi kan synce scores
+          teamsWithApiIds.push({
+            ...team,
+            id: i + 1,
+            apiId: result.data._id,
+            score: 0,
+          });
+        }
+      }
+
+      // Gem vores hold-IDs så vi kun sletter dem næste gang
+      localStorage.setItem("ourTeamIds", JSON.stringify(createdTeamIds));
+
+      // Tilføj holdene til spillet (optional - game works without this)
+      if (createdTeamIds.length > 0) {
+        try {
+          await addTeamsToGame(GAME_ID, createdTeamIds);
+        } catch {
+          // API endpoint may not be configured - game works without it
+        }
+      }
+
+      // Ryd gamle spildata og gem de nye hold med API-ids
+      localStorage.removeItem("gameTeams");
+      localStorage.removeItem("answeredQuestions");
+      sessionStorage.setItem("teams", JSON.stringify(teamsWithApiIds));
+
+      // Gå til spillet
+      navigate(`/game-play?gameId=${GAME_ID}`, {
+        state: { game },
       });
+    } catch (error) {
+      console.error("Error starting game:", error);
+      setFormError("Noget gik galt. Prøv igen.");
     }
   };
 
+  // -----------------------------
+  // RENDER
+  // -----------------------------
   return (
     <div className="team-setup-container">
       <BackButton to="/home" />
+
       <img
         src={heroImg}
         alt="Background decoration"
-        className="hero-background"
+        className="teamsetup-hero-background"
       />
 
       <div className="baubles-decoration">
@@ -138,7 +260,7 @@ const TeamSetup = () => {
 
         <div className="teams-grid">
           {teams.map((team, index) => (
-            <div key={team.id} className="team-card">
+            <div key={index} className="team-card">
               <div className="team-number-badge">{index + 1}</div>
 
               <div className="team-icon-section">
@@ -162,11 +284,7 @@ const TeamSetup = () => {
                       team.icon === iconOption.name ? "selected" : ""
                     } ${iconOption.color}`}
                     onClick={() =>
-                      handleIconSelect(
-                        team.id,
-                        iconOption.name,
-                        iconOption.color
-                      )
+                      handleIconSelect(index, iconOption.name, iconOption.color)
                     }
                   >
                     <img
@@ -183,35 +301,30 @@ const TeamSetup = () => {
                 type="text"
                 className="team-name-input"
                 value={team.name}
-                onChange={(e) => handleTeamNameChange(team.id, e.target.value)}
-                placeholder={`Hold ${team.id}`}
+                onChange={(e) => handleTeamNameChange(index, e.target.value)}
+                placeholder="Skriv team navn"
               />
             </div>
           ))}
         </div>
 
         <div className="game-select-section">
-          <h3 className="game-select-label">Vælg spil</h3>
-          <select
-            className="game-select-dropdown"
-            value={selectedGameId || ""}
-            onChange={(e) => setSelectedGameId(e.target.value)}
-          >
-            <option value="" disabled>
-              -- Vælg et spil --
-            </option>
-            {games.map((game) => (
-              <option key={game._id} value={game._id}>
-                {game.name}
-              </option>
-            ))}
-          </select>
+          <h3 className="game-select-label">
+            Spil: {game?.name || "Indlæser..."}
+          </h3>
         </div>
+
+        {/* 🔴 FEJLBESKED */}
+        {formError && (
+          <p className="teamsetup-error" role="alert">
+            {formError}
+          </p>
+        )}
 
         <button
           className="start-game-btn"
           onClick={handleStartGame}
-          disabled={!selectedGameId}
+          disabled={!game}
         >
           ✨ Start Spillet ✨
         </button>

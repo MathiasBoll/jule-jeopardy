@@ -9,13 +9,14 @@ import { CategoryTableRow } from "../CMS/CategoryTableRow";
 import s from "./GameTable.module.css";
 
 const GameKategoryTable = ({ game }) => {
+  console.log(game);
   if (!game) return <p>No game selected</p>;
 
   const categories = game.categories || [];
 
   return (
     <div className={s.kategoryTable}>
-      <GameKategory label="Game Kategory" game={game}>
+      <GameKategory label={`Game name: ${game.name}`} game={game}>
         <KategoryTable
           headers={
             <>
