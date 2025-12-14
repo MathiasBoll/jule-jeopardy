@@ -23,8 +23,8 @@ const GamesDashboard = () => {
 
   return (
     <section className="sectionAdmin">
+      <DashNav />
       <div className="container">
-        <DashNav />
         {/* Hvis der endnu ikke er valgt et spil */}
         {!currentGame ? (
           // Vis komponent til at vælge et spil

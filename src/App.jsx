@@ -29,10 +29,11 @@ export default function App() {
         path="/dashboard/games/:gameId/:categoryId/question/:questionId/edit"
         element={<JeopardyQuestion />}
       />
+      <Route path="/jeopardy-question" element={<JeopardyQuestion />} />
 
       {/* Spil ruter */}
       <Route path="/game-select" element={<TeamSetup />} />
-      <Route path="/game-table" element={<GameTable />} />
+      <Route path="/game-table/:gameId" element={<GameTable />} />
       <Route path="/game-play" element={<GameBoardPage />} />
       <Route path="/podium" element={<Podium />} />
       <Route path="/kategory" element={<Kategory />} />

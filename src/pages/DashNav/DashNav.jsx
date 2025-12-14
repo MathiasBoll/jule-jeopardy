@@ -9,11 +9,11 @@ const DashNav = () => {
     { path: "/games-dashboard", label: "Admin" },
     { path: "/game-table", label: "Game Table" },
     { path: "/kategory", label: "Kategory" },
-    { path: "/dashboard", label: "Question" },
+    { path: "/jeopardy-question", label: "Question" },
   ];
 
   // Find active segment for breadcrumb
-  const segments = location.pathname.split("/").filter(Boolean);
+  // const segments = location.pathname.split("/").filter(Boolean);
 
   return (
     <nav className={s.navWrapper}>
@@ -33,14 +33,14 @@ const DashNav = () => {
       </ul>
 
       {/* Breadcrumbs */}
-      <div className={s.breadcrumb}>
+      {/* <div className={s.breadcrumb}>
         {segments.map((seg, idx) => (
           <span key={idx} className={s.segment}>
             {seg}
             {idx < segments.length - 1 && " › "}
           </span>
         ))}
-      </div>
+      </div> */}
     </nav>
   );
 };

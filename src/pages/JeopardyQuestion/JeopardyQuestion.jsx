@@ -24,10 +24,10 @@ const JeopardyQuestion = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <section className="sectionAdmin">
+    <section className="sectionJeopardy">
       {/* Højre område hvor selve panelet ligger */}
+      <DashNav />
       <main className="jq-admin-main">
-        <DashNav />
         {/* Formularen står for indholdet af panelet */}
         <JeopardyQuestionForm
           gameId={gameId}

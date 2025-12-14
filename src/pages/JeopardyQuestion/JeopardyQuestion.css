@@ -3,7 +3,7 @@
    ========================================================= */
 
 /* -------- Overordnet layout: sidebar + content ---------- */
-.sectionAdmin {
+.sectionJeopardy {
   display: flex;
   min-height: 100vh;
   background: #f4f5fb;
@@ -16,8 +16,8 @@
 .admin-container {
   flex: 1;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: flex-start;
   padding: 48px 32px;
   overflow-y: auto;
 }
@@ -194,4 +194,10 @@
 .jq-btn-secondary {
   background: #e5e7eb;
   color: #111827;
+}
+
+.FormQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

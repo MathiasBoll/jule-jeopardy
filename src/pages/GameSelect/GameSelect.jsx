@@ -7,10 +7,10 @@ const TARGET_GAME_ID = "693bd83b4d6dcc5e58fa2aba";
 
 const GameSelect = ({ onSelect }) => {
   const { games, loading, error } = FetchGame();
-  
+
   const filteredGames = games.filter((g) => g._id === TARGET_GAME_ID);
 
-  const [selectedGameId, setSelectedGameId] = useState(TARGET_GAME_ID);
+  const [selectedGameId, setSelectedGameId] = useState("");
 
   const selectedGame = filteredGames.find((g) => g._id === selectedGameId);
 
@@ -32,6 +32,7 @@ const GameSelect = ({ onSelect }) => {
           value={selectedGameId}
           onChange={(e) => setSelectedGameId(e.target.value)}
         >
+          <option value="">-- Select Game --</option>
           {filteredGames.map((game) => (
             <option key={game._id} value={game._id}>
               {game.name}

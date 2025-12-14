@@ -25,6 +25,8 @@
   width: 100%;
   min-width: 12rem;
   max-width: 16rem;
+  padding: 14px 20px;
+  border-radius: 4px;
 
   color: var(--color-bg-light);
   background-color: var(--button-bg);

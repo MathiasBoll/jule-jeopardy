@@ -25,8 +25,8 @@ const Kategory = () => {
   return (
     // Genbrugt admin-layout (samme som andre CMS-sider)
     <section className="sectionAdmin">
+      <DashNav />
       <div className="container">
-        <DashNav />
         {/* Styling-wrapper til kategori-indhold */}
         <div className={s.boxKategory}>
           {/* Viser spørgsmålene for valgt kategori */}

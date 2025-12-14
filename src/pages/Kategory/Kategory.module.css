@@ -1,12 +1,13 @@
 .boardKategory {
   border-radius: 4px;
   background-color: rgb(128, 128, 128, 0.2);
-  width: 100%;
+  width: 860px;
 }
 
 .boxKategory {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .labelKategory {
