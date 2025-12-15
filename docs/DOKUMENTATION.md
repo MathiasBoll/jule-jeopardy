@@ -157,11 +157,38 @@ npm run preview
 ---
 
 ## 👥 Udviklet af
-- Albina Biriukova
-- Mathias Boll
-- Oleg Troian
-- Siv Hede Vollbrecht
-- Tor Ørum
+
+### Albina Biriukova
+- **Idéudvikling**: Kom med hovedidéen og kernefunktioner til projektet
+- **UI/UX Design**: Lavede Figma-designs og designsystem
+- **Visuelt**: Stod for det grafiske udtryk og juletemaet
+
+### Mathias Boll
+- **Figma Design**: Hjalp med UI-komponenter og design
+- **GitHub Setup**: Satte repository op og administrerede Git
+- **Projektstruktur**: Fik strukturen, dependencies og Vite-config på plads
+- **Generel hjælp**: Hjalp med smårettelser og kodereview
+
+### Oleg Troian
+- **Admin-panel**: Udviklede hele admin-dashboard og CMS
+- **CRUD Funktioner**: Lavede alt kategoristyring og spørgsmålsadministration
+- **Admin Sider**: AdminHome, AdminCategories, AdminQuestions, og AdminQuestionEdit
+- **API Services**: gameService.js og teamService.js
+
+### Siv Hede Vollbrecht
+- **Spilmekanik**: Hele gameplay-logikken og hvordan spillet fungerer
+- **Hold-system**: Holdopsætning, point-system og visning af teams
+- **Game Sider**: GamePlay, TeamSetup, GameBoard, Podium
+- **Al Styling**: CSS, animationer og responsivt design på hele projektet
+- **UI Komponenter**: Modal, Snowfall, AnimatedCount, CountUp
+
+### Tor Ørum
+- **Idéudvikling**: Bidrog til konceptet og projektets retning
+- **Wireframes**: Lavede de første skitser
+- **Forside**: Udviklede Home-siden med navigation og grafik
+
+
+---
 
 **Semester Opgave** - Jule-Jeopardy  
 **Dato**: December 2025
