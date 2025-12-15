@@ -106,6 +106,7 @@ const QuestionForm = ({
         name: game.name,
         isOver: game.isOver || false,
         categories: updatedCategories.map((cat) => ({
+          _id: cat._id,
           name: cat.name,
           questions: cat.questions.map((q) => ({
             _id: q._id,
