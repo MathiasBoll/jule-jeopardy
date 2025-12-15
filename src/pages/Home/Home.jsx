@@ -18,7 +18,7 @@ const Home = () => {
 
       <button
         className="settings-button"
-        onClick={() => navigate("/games-dashboard")}
+        onClick={() => navigate("/admin")}
         aria-label="Admin Dashboard"
       >
         <img src={settingsIcon} alt="Settings" />

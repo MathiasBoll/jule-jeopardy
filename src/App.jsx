@@ -1,43 +1,47 @@
 import "./App.css";
-import GamesDashboard from "./pages/CMS/GamesDashboard";
-import GameBoardPage from "./pages/GameBoard/GameBoardPage";
-import GameTable from "./pages/GameTable/GameTable";
-import Home from "./pages/Home/Home";
-import JeopardyQuestion from "./pages/JeopardyQuestion/JeopardyQuestion";
-import Kategory from "./pages/Kategory/Kategory";
-import Podium from "./pages/Podium/Podium";
-import TeamSetup from "./pages/TeamSetup/TeamSetup";
 import "./styles/global.css";
 
 import { Route, Routes } from "react-router-dom";
 
-// Hovedkomponent - definerer alle ruter i applikationen
+// Pages
+import GamePlayPage from "./pages/GamePlay/GamePlayPage";
+import Home from "./pages/Home/Home";
+import Podium from "./pages/Podium/Podium";
+import TeamSetup from "./pages/TeamSetup/TeamSetup";
+
+// Admin Pages
+import AdminCategories from "./pages/AdminCategories/AdminCategories";
+import AdminQuestionEdit from "./pages/AdminQuestionEdit/AdminQuestionEdit";
+import AdminQuestions from "./pages/AdminQuestions/AdminQuestions";
+import AdminDashboard from "./pages/CMS/AdminDashboard";
+
 export default function App() {
   return (
     <Routes>
-      {/* Forside */}
+      {/* Home */}
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
 
-      {/* Admin/CMS ruter */}
-      <Route path="/games-dashboard" element={<GamesDashboard />} />
+      {/* Admin routes */}
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/categories/:gameId" element={<AdminCategories />} />
       <Route
-        path="/dashboard/games/:gameId/:categoryId/question/new"
-        element={<JeopardyQuestion />}
+        path="/admin/questions/:gameId/:categoryId"
+        element={<AdminQuestions />}
       />
       <Route
-        path="/dashboard/games/:gameId/:categoryId/question/:questionId/edit"
-        element={<JeopardyQuestion />}
+        path="/admin/question/:gameId/:categoryId/new"
+        element={<AdminQuestionEdit />}
       />
-      <Route path="/jeopardy-question" element={<JeopardyQuestion />} />
+      <Route
+        path="/admin/question/:gameId/:categoryId/:questionId"
+        element={<AdminQuestionEdit />}
+      />
 
-      {/* Spil ruter */}
+      {/* Game routes */}
       <Route path="/game-select" element={<TeamSetup />} />
-      <Route path="/game-table/:gameId" element={<GameTable />} />
-      <Route path="/game-play" element={<GameBoardPage />} />
+      <Route path="/game-play" element={<GamePlayPage />} />
       <Route path="/podium" element={<Podium />} />
-      <Route path="/kategory" element={<Kategory />} />
-      <Route path="/kategory/:gameId/:categoryId" element={<Kategory />} />
     </Routes>
   );
 }

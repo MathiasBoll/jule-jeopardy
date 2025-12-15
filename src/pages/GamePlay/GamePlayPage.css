@@ -1,0 +1,353 @@
+html:has(.gamePageContainer),
+html:has(.gamePageContainer) body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 50px;
+  font-size: 24px;
+}
+
+.error {
+  color: red;
+}
+
+.gamePageContainer {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #3d7a5a 0%, #2d5016 50%, #1f3a14 100%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.teamsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.8vw;
+  padding: 0.5vh 4vw 1vh;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.teamCard {
+  background: linear-gradient(180deg, #dde2e1 0%, #c5cccb 100%);
+  border: 1.6px solid rgba(0, 0, 0, 0.1);
+  border-top: 1.6px solid #eac16f;
+  border-radius: 0.6vw;
+  padding: 1vh 0.8vw;
+  width: 9vw;
+  text-align: center;
+  box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.teamCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px -4px rgba(0, 0, 0, 0.15),
+    0 12px 18px -3px rgba(0, 0, 0, 0.15);
+}
+
+.teamIconCircle {
+  width: 2.2vw;
+  height: 2.2vw;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5vh;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.teamIconCircle.yellow {
+  background: #ffc107;
+}
+
+.teamIconCircle.green {
+  background: #4caf50;
+}
+
+.teamIconCircle.white {
+  background: #f5f5f5;
+}
+
+.teamIconCircle.red {
+  background: #f44336;
+}
+
+.teamIconImg {
+  width: 1.4vw;
+  height: 1.4vw;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.teamName {
+  font-size: 0.75vw;
+  color: #333;
+  margin-bottom: 0.5vh;
+  font-weight: 600;
+  letter-spacing: 0.02vw;
+  width: 100%;
+}
+
+.teamScore {
+  background: linear-gradient(180deg, #0f3d1c 0%, #0a2814 100%);
+  color: #ffd700;
+  font-size: 1.8vw;
+  font-weight: bold;
+  padding: 1.2vh 0;
+  border-radius: 0.4vw;
+  margin-bottom: 0.6vh;
+  width: 7vw;
+  border: 0.8px solid rgba(0, 0, 0, 0.2);
+  border-top: 0.8px solid #eac16f;
+}
+
+.scoreButtons {
+  display: flex;
+  justify-content: center;
+  gap: 0.4vw;
+  width: 7vw;
+  height: 3vh;
+}
+
+.scoreBtn {
+  flex: 1;
+  height: 3vh;
+  border: none;
+  border-radius: 0.3vw;
+  font-size: 1.4vw;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.minusBtn {
+  background: #c62828;
+  border-radius: 8px;
+}
+
+.minusBtn:hover {
+  background: #b71c1c;
+  transform: scale(1.05);
+}
+
+.plusBtn {
+  background: #2e7d32;
+  border-radius: 8px;
+}
+
+.plusBtn:hover {
+  background: #1b5e20;
+  transform: scale(1.05);
+}
+
+.scoreBtn:active {
+  transform: scale(0.98);
+}
+
+.pointsValue {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  min-width: 45px;
+  text-align: center;
+}
+
+.podium-button {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 70px;
+  height: 320px;
+  background: linear-gradient(135deg, #1a5f4f 0%, #0d3d32 100%);
+  border: 3px solid #d4af37;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 2px 5px rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 10px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.podium-button:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6),
+    inset 0 2px 5px rgba(212, 175, 55, 0.5);
+  border-color: #ffd54f;
+}
+
+.podium-button:active {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5),
+    inset 0 1px 3px rgba(212, 175, 55, 0.3);
+}
+
+.podium-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.podium-text span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #d4af37;
+  font-family: "Arial", sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.podium-arrow {
+  font-size: 2rem;
+  color: #d4af37;
+  font-weight: bold;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .podium-button {
+    width: 60px;
+    height: 220px;
+    right: 10px;
+  }
+
+  .podium-text span {
+    font-size: 1.4rem;
+  }
+
+  .podium-arrow {
+    font-size: 1.6rem;
+  }
+}
+
+/* Smaller screen heights - scale down teams section */
+@media (max-height: 800px) {
+  .teamsContainer {
+    padding: 0.3vh 3vw 0.8vh;
+    gap: 0.6vw;
+  }
+
+  .teamCard {
+    padding: 0.6vh 0.6vw;
+    width: 8vw;
+  }
+
+  .teamIconCircle {
+    width: 1.8vw;
+    height: 1.8vw;
+    margin-bottom: 0.3vh;
+  }
+
+  .teamIconImg {
+    width: 1.1vw;
+    height: 1.1vw;
+  }
+
+  .teamName {
+    font-size: 0.65vw;
+    margin-bottom: 0.3vh;
+  }
+
+  .teamScore {
+    font-size: 1.4vw;
+    padding: 0.8vh 0;
+    margin-bottom: 0.4vh;
+    width: 6vw;
+  }
+
+  .scoreButtons {
+    width: 6vw;
+    height: 2.5vh;
+    gap: 0.3vw;
+  }
+
+  .scoreBtn {
+    height: 2.5vh;
+    font-size: 1.1vw;
+  }
+}
+
+@media (max-height: 700px) {
+  .teamsContainer {
+    padding: 0.2vh 2.5vw 0.5vh;
+    gap: 0.5vw;
+  }
+
+  .teamCard {
+    padding: 0.4vh 0.5vw;
+    width: 7vw;
+  }
+
+  .teamIconCircle {
+    width: 1.5vw;
+    height: 1.5vw;
+    margin-bottom: 0.2vh;
+  }
+
+  .teamIconImg {
+    width: 0.9vw;
+    height: 0.9vw;
+  }
+
+  .teamName {
+    font-size: 0.55vw;
+    margin-bottom: 0.2vh;
+  }
+
+  .teamScore {
+    font-size: 1.2vw;
+    padding: 0.6vh 0;
+    margin-bottom: 0.3vh;
+    width: 5.5vw;
+  }
+
+  .scoreButtons {
+    width: 5.5vw;
+    height: 2vh;
+    gap: 0.25vw;
+  }
+
+  .scoreBtn {
+    height: 2vh;
+    font-size: 1vw;
+  }
+}
