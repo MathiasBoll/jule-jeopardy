@@ -17,12 +17,14 @@ const QuestionsTable = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!gameId) {
+    if (!gameId || !categoryId) {
       setLoading(false);
       return;
     }
 
     const loadGame = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const data = await fetchGameById(gameId);
         setGame(data);
@@ -34,13 +36,15 @@ const QuestionsTable = () => {
     };
 
     loadGame();
-  }, [gameId]);
+  }, [gameId, categoryId]);
 
   if (loading) return <p className={s.statusText}>Indlæser...</p>;
   if (error) return <p className={s.statusText}>Fejl: {error}</p>;
   if (!game) return <p className={s.statusText}>Spil ikke fundet</p>;
 
-  const category = game.categories.find((c) => c._id === categoryId);
+  const category = game.categories.find(
+    (c) => c._id === categoryId || c._id?.toString() === categoryId
+  );
   if (!category) return <p className={s.statusText}>Kategori ikke fundet</p>;
 
   return (
