@@ -28,10 +28,11 @@ export const createGame = async (gameData) => {
 
 // Opdaterer et eksisterende spil
 export const updateGame = async (gameData) => {
+  // API expects game ID in body, not URL
   const response = await fetch(`${API_URL}/game`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(gameData),
+    body: JSON.stringify({ _id: gameData._id, ...gameData }),
   });
   return await response.json();
 };
@@ -46,7 +47,6 @@ export const deleteGame = async (gameId) => {
 
 // Tilføjer hold til et spil
 export const addTeamsToGame = async (gameId, teamIds) => {
-  
   const response = await fetch(`${API_URL}/game/${gameId}/add-teams`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

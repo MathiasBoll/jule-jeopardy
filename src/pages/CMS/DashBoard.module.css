@@ -1,10 +1,12 @@
-/*?============= Games_Dash_Board ============*/
+/*?============= Games_Dash_Board - Christmas Theme ============*/
 
 .selectItems {
-  border-radius: 6px;
-  border: 1px solid rgb(51, 51, 51, 0.3);
+  border-radius: 12px;
+  border: 2px solid #ffb347;
   padding: 22px 0;
   width: 460px;
+  background: rgba(45, 80, 22, 0.6);
+  backdrop-filter: blur(12px);
 }
 
 .tableContainer {
@@ -18,58 +20,56 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* Зебра-стиль рядків */
+/* Zebra rows - green theme */
 .tBody > tr:nth-child(2n) {
-  background-color: #f3f4f6; /* gray-100 */
+  background-color: rgba(31, 58, 20, 0.4);
 }
 
 .tBody > tr:nth-child(2n + 1) {
-  background-color: #ffffff;
+  background-color: rgba(45, 80, 22, 0.3);
+}
+
+.tBody > tr:hover {
+  background-color: rgba(76, 175, 80, 0.3);
 }
 
 /*?============= Game_Th ============*/
 
 .th {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.85rem;
   text-align: left;
-
-  padding: 0.5rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  color: #1f3a14;
 }
 
 .th:first-of-type {
-  background-color: #111827; /* gray-900 */
-  color: white;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  background-color: #ffb347;
+  border-top-left-radius: 12px;
 }
 
 .th:nth-of-type(2) {
-  background-color: #e9d5ff; /* purple-200 */
-  color: #111827;
+  background-color: #ffd180;
 }
 
 .th:nth-of-type(3) {
-  background-color: #d9f99d; /* lime-200 */
-  color: #111827;
+  background-color: #ffb347;
 }
 
-/* Остання колонка — Handling */
-.th:last-of-type {
-  background-color: #ffffff;
-  color: #111827;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+.th:nth-of-type(4) {
+  background-color: #ffd180;
 }
 
 /*?============= Category_TableRow ============*/
 
 .cell {
-  padding: 0.5rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   font-size: 0.875rem;
-  color: #111827;
+  color: #e8f5e9;
 }
 
 .left {
@@ -87,22 +87,44 @@
 /*?============= Category_ ============*/
 
 .dashTitle {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 32px;
-  color: white;
+  color: #ffb347;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .label {
-  font-weight: 400;
-  font-size: 24px;
-  color: var(--color-text-light);
-  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #ffb347;
+  padding: 16px 20px;
   margin-block: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .boardKategory {
-  border-radius: 4px;
-  background-color: rgb(128, 128, 128, 0.2);
+  border-radius: 16px;
+  background: rgba(45, 80, 22, 0.6);
+  backdrop-filter: blur(12px);
+  border: 2px solid #ffb347;
   width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+.link {
+  color: #ffb347 !important;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(255, 179, 71, 0.15);
+  border: 1px solid rgba(255, 179, 71, 0.3);
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.link:hover {
+  color: #ffd180 !important;
+  background: rgba(255, 179, 71, 0.3);
+  border-color: #ffb347;
+}

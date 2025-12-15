@@ -1,0 +1,128 @@
+/* Full page green background with hero */
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #3d7a5a 0%, #2d5016 50%, #1f3a14 100%);
+  overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.headerSection {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 3.5rem;
+  color: #ffb347;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #c8e6c9;
+  margin: 12px 0 0;
+  font-weight: 300;
+}
+
+.gameCard {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(45, 80, 22, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 28px 36px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #ffb347;
+  min-width: 360px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.gameCard:hover {
+  background: rgba(45, 80, 22, 0.8);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  border-color: #ffd180;
+}
+
+.gameIcon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+}
+
+.gameInfo {
+  flex: 1;
+}
+
+.gameName {
+  font-size: 1.6rem;
+  color: #ffb347;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.gameStats {
+  font-size: 1rem;
+  color: #a5d6a7;
+  margin: 0;
+}
+
+.gameArrow {
+  font-size: 1.8rem;
+  color: #ffb347;
+  transition: transform 0.3s ease;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.gameCard:hover .gameArrow {
+  transform: translateX(6px);
+}
+
+.loadingContainer,
+.errorContainer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.loadingText {
+  font-size: 1.4rem;
+  color: #c8e6c9;
+}
+
+.errorText {
+  font-size: 1.4rem;
+  color: #ffb347;
+}
